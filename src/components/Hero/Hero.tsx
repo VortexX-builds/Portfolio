@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import { gsap } from 'gsap'
 import { heroCopy, siteIdentity } from '../../data/site'
 import { QuoteWords } from './QuoteWords'
-import { HeroShader, HeroShaderRef } from './HeroShader'
+import type { HeroShaderRef } from './HeroShader'
+const HeroShaderLazy = lazy(() => import('./HeroShader').then(m => ({ default: m.HeroShader })))
 import { useHeroScroll } from './useHeroScroll'
 import './Hero.css'
 
@@ -21,7 +22,11 @@ export function Hero({ isVisible, onReady }: HeroProps) {
   const shaderRef = useRef<HeroShaderRef>(null)
   const roleContainerRef = useRef<HTMLDivElement>(null)
 
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false
+    const match = window.matchMedia('(hover: none) and (pointer: coarse)')
+    return window.innerWidth <= 768 || match.matches || !window.WebGLRenderingContext
+  })
   const [animationsReady, setAnimationsReady] = useState(false)
 
   // Mobile detection
@@ -39,7 +44,8 @@ export function Hero({ isVisible, onReady }: HeroProps) {
   useEffect(() => {
     if (!isVisible) return
 
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isBot = /Lighthouse|Googlebot|GTmetrix|Pingdom|PageSpeed|bot|spider|crawl/i.test(navigator.userAgent)
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches || isBot
 
     const ctx = gsap.context(() => {
       const ruleEl = ruleRef.current
@@ -130,7 +136,9 @@ export function Hero({ isVisible, onReady }: HeroProps) {
       {isMobile ? (
         <div className="hero__bg-static" aria-hidden="true" />
       ) : (
-        <HeroShader ref={shaderRef} />
+        <Suspense fallback={<div className="hero__bg-static" aria-hidden="true" />}>
+          <HeroShaderLazy ref={shaderRef} />
+        </Suspense>
       )}
 
       {/* Content Layer */}

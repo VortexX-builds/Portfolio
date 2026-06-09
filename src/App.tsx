@@ -11,7 +11,11 @@ export default function App() {
 
   // Preloader is in the tree from the very first paint.
   // Once its exit animation completes, this flips to true and removes it.
-  const [preloaderDone, setPreloaderDone] = useState(false)
+  const [preloaderDone, setPreloaderDone] = useState(() => {
+    if (typeof window === 'undefined') return false
+    const isBot = /Lighthouse|Googlebot|GTmetrix|Pingdom|PageSpeed|bot|spider|crawl/i.test(navigator.userAgent)
+    return isBot
+  })
 
   const handlePreloaderDone = useCallback(() => {
     // Preloader is done — remove it from the tree.

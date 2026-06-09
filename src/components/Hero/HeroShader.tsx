@@ -10,6 +10,7 @@ void main() {
 `
 
 const fragmentShader = `
+precision mediump float;
 uniform float u_time;
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
@@ -39,7 +40,7 @@ float noise(vec2 x) {
 float fbm(vec2 p) {
     float f = 0.0;
     float w = 0.5;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         f += w * noise(p);
         p *= 2.0;
         w *= 0.5;
@@ -121,7 +122,7 @@ export const HeroShader = forwardRef<HeroShaderRef, {}>((_, ref) => {
       alpha: false,
       powerPreference: 'high-performance',
     })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.0))
     renderer.setClearColor(0x010606, 1) // Base dark background
 
     // Scene & Camera
