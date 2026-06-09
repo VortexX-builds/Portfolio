@@ -12,6 +12,7 @@
 - **Site purpose:** Personal portfolio. The most important sales tool he has.
 - **Deployed on:** Vercel
 - **Repository:** d:/Freelance/Portfolio
+- **GitHub Repository:** https://github.com/VortexX-builds/Portfolio
 
 ---
 
