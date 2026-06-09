@@ -1,0 +1,85 @@
+/**
+ * Preloader — scoped styles.
+ */
+
+/* ── Root overlay ─────────────────────────────────────────────────────────── */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ── Name stage ───────────────────────────────────────────────────────────── */
+
+.preloader__stage {
+  visibility: hidden; /* Prevent FOUC, GSAP makes it visible */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ── Sentence ─────────────────────────────────────────────────────────────── */
+
+.preloader__sentence {
+  font-family: var(--font-clash);
+  font-size: clamp(2.8rem, 6vw, 6.5rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+/* ── Word Wrapper (Clip Container) ───────────────────────────────────────── */
+
+.preloader__word {
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+/* ── Inner Animating Element ──────────────────────────────────────────────── */
+
+.preloader__word-inner {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ── Flip Wrapper (The Slot) ──────────────────────────────────────────────── */
+
+.preloader__word--flip {
+  display: inline-grid;
+}
+
+.preloader__word-a,
+.preloader__word-b {
+  grid-area: 1 / 1;
+  display: inline-block;
+  will-change: transform;
+}
+
+.preloader__word-b {
+  color: var(--color-accent);
+}
+
+/* ── Body scroll lock ─────────────────────────────────────────────────────── */
+body.preloader-active {
+  overflow: hidden;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .preloader {
+    display: none;
+  }
+}

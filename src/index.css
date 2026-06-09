@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-Variable.woff2') format('woff2-variations');
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+/* ─── CSS Custom Properties (design tokens mirrored for global use) ────────── */
+:root {
+  /* Colors */
+  --color-bg:           #010606;
+  --color-text-primary: #DAF1DE;
+  --color-text-muted:   #8AAFA7;
+  --color-accent:       #34D399;
+  --color-surface:      #0D2B2C;
+  --color-border:       #163830;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-display: 'Syne', sans-serif;
+  --font-cinematic: 'Cinzel', serif;
+  --font-clash: 'Clash Display', system-ui, sans-serif;
+
+  /* Fluid type scale */
+  --text-hero:    clamp(3.5rem, 9vw, 9rem);
+  --text-display: clamp(2.5rem, 6vw, 6rem);
+  --text-heading: clamp(1.75rem, 3vw, 3rem);
+  --text-title:   clamp(1.25rem, 2vw, 1.75rem);
+  --text-body:    1rem;
+  --text-small:   0.875rem;
+  --text-label:   0.75rem;
+
+  /* Spacing */
+  --space-section: clamp(5rem, 12vh, 10rem);
+
+  /* Animation */
+  --duration-fast:    250ms;
+  --duration-default: 650ms;
+  --duration-slow:    1400ms;
+  --ease-default: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-dramatic: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Reset ────────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Lenis smooth scroll overrides browser default */
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Typography base ──────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+p {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ─── Utility classes ──────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: clamp(1.5rem, 5vw, 5rem);
+}
+
+.section {
+  padding-block: var(--space-section);
+}
+
+/* Text color utilities */
+.text-primary { color: var(--color-text-primary); }
+.text-muted   { color: var(--color-text-muted); }
+.text-accent  { color: var(--color-accent); }
+
+/* Font size utilities */
+.text-hero    { font-size: var(--text-hero); }
+.text-display { font-size: var(--text-display); }
+.text-heading { font-size: var(--text-heading); }
+.text-title   { font-size: var(--text-title); }
+
+/* ─── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Selection ────────────────────────────────────────────────────────────── */
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ─── GSAP initial states ──────────────────────────────────────────────────── */
+.gsap-hidden {
+  visibility: hidden;
+}

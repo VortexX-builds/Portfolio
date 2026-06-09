@@ -1,0 +1,373 @@
+/**
+ * Navbar — scoped styles.
+ *
+ * State classes applied by JS:
+ *   .navbar--glass    → backdrop-filter surface, triggered after hero leaves viewport
+ *
+ * Responsive:
+ *   Desktop (≥ 1024px): NameFlip visible, nav links visible, MENU button hidden
+ *   Mobile  (< 1024px):  Initials visible, nav links hidden, MENU button visible
+ */
+
+/* ── Root bar ─────────────────────────────────────────────────────────────── */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 68px;
+
+  /* Prevent text-cursor showing when hovering the bar triggers the name flip */
+  cursor: default;
+
+  /* Start transparent — glass class is added by ScrollTrigger after hero */
+  background: transparent;
+  border-bottom: 1px solid transparent;
+
+  /*
+   * CSS handles the visual transition so it runs on the compositor thread
+   * (no JS involvement = no jank). GSAP only manages position (y-axis).
+   */
+  transition:
+    background  0.5s var(--ease-default),
+    border-color 0.5s var(--ease-default),
+    backdrop-filter 0.5s var(--ease-default);
+
+  will-change: transform; /* For the GSAP hide/show translate */
+}
+
+/* ── Glass state (after hero section exits viewport) ─────────────────────── */
+
+.navbar--glass {
+  /*
+   * Glassmorphism surface:
+   * - Semi-transparent dark base keeps legibility on any background
+   * - backdrop-filter blur creates the frosted-glass depth effect
+   * - Subtle border provides edge definition without being harsh
+   * - Box shadow adds a faint inner glow to reinforce the glass feel
+   */
+  background: rgba(10, 10, 10, 0.55);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom-color: rgba(30, 30, 30, 0.55);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.03) inset,  /* Inner top highlight */
+    0 4px 24px rgba(0, 0, 0, 0.18);            /* Subtle depth shadow below */
+}
+
+/* ── Inner layout ─────────────────────────────────────────────────────────── */
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+
+  /* Match global .container padding */
+  padding-inline: clamp(1.5rem, 5vw, 5rem);
+  max-width: 1400px;
+  margin-inline: auto;
+  width: 100%;
+}
+
+/* ── Name column (left slot) ─────────────────────────────────────────────── */
+
+.navbar__name-col {
+  display: flex;
+  align-items: center;
+}
+
+/* ── NameFlip container (desktop) ─────────────────────────────────────────── */
+
+.navbar__name-desktop {
+  display: none; /* Hidden on mobile, shown on desktop */
+}
+
+@media (min-width: 1024px) {
+  .navbar__name-desktop {
+    display: block;
+  }
+}
+
+/* ── NameFlip sub-component styles ──────────────────────────────────────────
+   Note: .navbar__name is the <a> tag, set via NameFlip.tsx.
+   .navbar__name-front / .navbar__name-back are the two stacked spans.
+*/
+
+.navbar__name {
+  position: relative;
+  display: inline-block;
+  /*
+   * Cinzel (serif) for "Sloak Gohil" — the human identity.
+   * Matches the preloader's Sloak Gohil treatment for consistency.
+   * The serif-to-sans contrast with Syne (VortexX) IS the visual storytelling.
+   */
+  font-family: var(--font-cinematic);
+  font-size: var(--text-small);     /* 0.875rem */
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  cursor: default;
+
+  /*
+   * Perspective must be on the parent to create a shared 3D space
+   * for both child spans. Without this, each span would flip in
+   * its own local space and the transition would not align correctly.
+   */
+  perspective: 600px;
+
+  /* Reserve enough width for the longer of the two names */
+  white-space: nowrap;
+}
+
+.navbar__name-front,
+.navbar__name-back {
+  display: block;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+}
+
+.navbar__name-front {
+  /* Visible by default */
+  transform: rotateY(0deg);
+}
+
+.navbar__name-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  /* Gold accent for the craft identity — one of our 3-4 permitted uses sitewide */
+  color: var(--color-accent);
+  font-family: var(--font-display); /* Syne */
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+
+  /* Starts flipped behind — GSAP rotates it forward on hover */
+  transform: rotateY(90deg);
+}
+
+/* ── Mobile initials ─────────────────────────────────────────────────────── */
+
+.navbar__initials {
+  display: block; /* Visible on mobile, hidden on desktop */
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  font-weight: 600;
+  letter-spacing: 0.15em; /* Widest — initials read like a monogram */
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+@media (min-width: 1024px) {
+  .navbar__initials {
+    display: none;
+  }
+}
+
+/* ── Right slot ───────────────────────────────────────────────────────────── */
+
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* ── Desktop nav links ────────────────────────────────────────────────────── */
+
+.navbar__links {
+  display: none; /* Hidden on mobile */
+  align-items: center;
+  gap: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .navbar__links {
+    display: flex;
+  }
+}
+
+.navbar__link {
+  font-family: var(--font-sans);
+  font-size: var(--text-label);     /* 0.75rem */
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  text-decoration: none;
+
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.navbar__link:hover {
+  color: var(--color-text-primary);
+}
+
+/* ── Mobile MENU button ───────────────────────────────────────────────────── */
+
+.navbar__menu-btn {
+  display: block; /* Visible on mobile */
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.navbar__menu-btn:hover {
+  color: var(--color-text-primary);
+}
+
+@media (min-width: 1024px) {
+  .navbar__menu-btn {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBILE MENU OVERLAY
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Overlay root ─────────────────────────────────────────────────────────── */
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 90; /* Below navbar (100) so MENU/CLOSE button stays on top */
+
+  background-color: var(--color-bg); /* Solid — no blur, overlay IS the surface */
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-inline: clamp(1.5rem, 8vw, 4rem);
+  padding-block: 5rem 3rem;
+
+  /* clip-path set by GSAP; starts collapsed at top-right origin */
+  clip-path: circle(0% at 95% 5%);
+
+  /*
+   * Thin vertical accent line on the left edge — a premium detail
+   * that frames the overlay content without adding color bulk.
+   */
+  border-left: 1px solid var(--color-border);
+}
+
+/* ── Close button ─────────────────────────────────────────────────────────── */
+
+.mobile-menu__close {
+  position: absolute;
+  top: clamp(1.2rem, 3vh, 1.8rem);
+  right: clamp(1.5rem, 5vw, 5rem);
+
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.mobile-menu__close:hover {
+  color: var(--color-text-primary);
+}
+
+/* ── Nav links ─────────────────────────────────────────────────────────────── */
+
+.mobile-menu__links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.mobile-menu__link {
+  /*
+   * Syne (--font-display) at cinematic scale.
+   * Makes the overlay feel like a distinct typographic space,
+   * not just a scaled-up desktop nav.
+   */
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-transform: uppercase;
+
+  color: var(--color-text-primary);
+  text-decoration: none;
+
+  /*
+   * Hover: accent color — one permitted use (we have 3-4 sitewide budget).
+   * The scale nudge adds tactile depth without violating the
+   * "no cheap micro-animations" rule — this is intentional, weighted.
+   */
+  transition:
+    color var(--duration-fast) var(--ease-default),
+    transform var(--duration-fast) var(--ease-default);
+
+  display: inline-block; /* Needed for transform to work */
+}
+
+.mobile-menu__link:hover {
+  color: var(--color-accent);
+  transform: translateX(8px);
+}
+
+/* ── Footer (identity line) ───────────────────────────────────────────────── */
+
+.mobile-menu__footer {
+  position: absolute;
+  bottom: clamp(2rem, 5vh, 3.5rem);
+  left: clamp(1.5rem, 8vw, 4rem);
+
+  font-family: var(--font-mono);    /* Mono for the editorial role label feel */
+  font-size: var(--text-label);
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+
+  /* No em dashes — the &mdash; in JSX is original copy, not us writing it */
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar {
+    transition: none;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .navbar__name-front,
+  .navbar__name-back {
+    will-change: auto;
+    transition: none;
+  }
+
+  .mobile-menu {
+    clip-path: none;
+    transition: none;
+  }
+}

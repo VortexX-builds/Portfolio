@@ -1,0 +1,172 @@
+.hero {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+
+/* ─── Shader & Background ─────────────────────────────────────────────────── */
+
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero__bg-static {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-bg);
+  /* Simple SVG noise data URI for mobile fallback */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ─── Content ──────────────────────────────────────────────────────────────── */
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto 1fr;
+}
+
+.hero__lockup {
+  grid-row: 2;
+  align-self: center;
+  /* Counteract the bottom quote row visually to maintain perfect center */
+  margin-top: -4rem;
+}
+
+.hero__rule {
+  width: 70px;
+  height: 1px;
+  background-color: var(--color-accent);
+  margin-bottom: 2rem;
+  transform-origin: left center;
+}
+
+.hero__name-container {
+  z-index: 2;
+}
+
+.hero__name {
+  font-family: var(--font-clash);
+  font-size: clamp(5rem, 13vw, 14rem);
+  /* Massive editorial scale */
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  text-shadow: 0 0 5.7px rgb(75, 235, 150), 0 0 24px rgba(108, 65, 224, 0.3);
+  margin: 0;
+  transform-origin: left center;
+  padding-bottom: 0.5rem;
+  /* Tighter gap to role */
+  will-change: transform, opacity, filter;
+}
+
+.hero__role {
+  font-family: var(--font-sans);
+  font-size: clamp(0.75rem, 1.2vw, 1rem);
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* Spreads elements across the full width */
+  width: 100%;
+  padding-right: 2rem;
+  /* Keep it from touching the right edge completely */
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .hero__role {
+    flex-direction: column;
+    gap: 0.75rem;
+    justify-content: flex-start;
+    padding-right: 0;
+  }
+}
+
+.hero__role span {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
+.hero__quote-wrap {
+  grid-row: 3;
+  align-self: end;
+  justify-self: end;
+  margin-bottom: clamp(5rem, 10vh, 7rem);
+  /* sit safely above scroll indicator */
+  z-index: 1;
+  text-align: right;
+}
+
+.hero__quote {
+  font-family: var(--font-clash);
+  font-size: clamp(0.65rem, 1vw, 0.9rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 100%;
+  margin: 0;
+  text-align: right;
+}
+
+.hero__quote-word {
+  display: inline-block;
+  cursor: default;
+  will-change: transform, opacity, filter, color;
+}
+
+@media (hover: none) {
+  .hero__quote-word {
+    pointer-events: none;
+  }
+}
+
+@media (hover: hover) {
+  .hero__quote-word:hover {
+    color: var(--color-text-primary);
+    transition: color 0.35s ease-out;
+  }
+
+  .hero__quote-word {
+    transition: color 0.55s ease-in-out;
+  }
+}
+
+/* ─── Scroll Indicator ─────────────────────────────────────────────────────── */
+
+.hero__scroll {
+  position: absolute;
+  bottom: clamp(2rem, 4vh, 3rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  user-select: none;
+}
