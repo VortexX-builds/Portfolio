@@ -1,44 +1,26 @@
-import { useEffect, useRef, useState, lazy, Suspense } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { heroCopy, siteIdentity } from '../../data/site'
-import { QuoteWords } from './QuoteWords'
-import type { HeroShaderRef } from './HeroShader'
-const HeroShaderLazy = lazy(() => import('./HeroShader').then(m => ({ default: m.HeroShader })))
+import { QuoteBridge } from './QuoteBridge'
 import { useHeroScroll } from './useHeroScroll'
 import './Hero.css'
 
 interface HeroProps {
   isVisible: boolean
   onReady?: () => void
+  setShaderIntensity: (val: number) => void
 }
 
-export function Hero({ isVisible, onReady }: HeroProps) {
+export function Hero({ isVisible, onReady, setShaderIntensity }: HeroProps) {
   const rootRef = useRef<HTMLElement>(null)
   const ruleRef = useRef<HTMLDivElement>(null)
   const nameRef = useRef<HTMLHeadingElement>(null)
   const roleRefs = useRef<HTMLSpanElement[]>([])
-  const quoteWrapRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
-  const shaderRef = useRef<HeroShaderRef>(null)
   const roleContainerRef = useRef<HTMLDivElement>(null)
+  const bridgeRef = useRef<HTMLDivElement>(null)
 
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === 'undefined') return false
-    const match = window.matchMedia('(hover: none) and (pointer: coarse)')
-    return window.innerWidth <= 768 || match.matches || !window.WebGLRenderingContext
-  })
   const [animationsReady, setAnimationsReady] = useState(false)
-
-  // Mobile detection
-  useEffect(() => {
-    const checkMobile = () => {
-      const match = window.matchMedia('(hover: none) and (pointer: coarse)')
-      setIsMobile(window.innerWidth <= 768 || match.matches || !window.WebGLRenderingContext)
-    }
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
 
   // Entry animation sequence
   useEffect(() => {
@@ -51,11 +33,10 @@ export function Hero({ isVisible, onReady }: HeroProps) {
       const ruleEl = ruleRef.current
       const nameEl = nameRef.current
       const roleEls = roleRefs.current.filter(Boolean)
-      const quoteWrapEl = quoteWrapRef.current
       const scrollEl = scrollRef.current
 
       if (prefersReduced) {
-        gsap.set([ruleEl, nameEl, roleEls, quoteWrapEl, scrollEl], {
+        gsap.set([ruleEl, nameEl, roleEls, scrollEl], {
           visibility: 'visible',
           opacity: 1,
           y: 0,
@@ -68,12 +49,12 @@ export function Hero({ isVisible, onReady }: HeroProps) {
 
       const tl = gsap.timeline({
         onComplete: () => {
-          gsap.set([nameEl, roleEls, quoteWrapEl], { willChange: 'auto' })
+          gsap.set([nameEl, roleEls], { willChange: 'auto' })
         }
       })
 
       // Optimization: will-change during entry
-      gsap.set([nameEl, roleEls, quoteWrapEl], { willChange: 'transform, opacity' })
+      gsap.set([nameEl, roleEls], { willChange: 'transform, opacity' })
 
       // Beat 0: Gold rule
       gsap.set(ruleEl, { scaleX: 0, transformOrigin: 'left center', visibility: 'visible' })
@@ -87,13 +68,9 @@ export function Hero({ isVisible, onReady }: HeroProps) {
       gsap.set(roleEls, { y: 20, opacity: 0, visibility: 'visible' })
       tl.to(roleEls, { y: 0, opacity: 1, duration: 0.65, ease: 'power2.out', stagger: 0.08 }, 0.65)
 
-      // Beat 3: Quote
-      gsap.set(quoteWrapEl, { opacity: 0, visibility: 'visible' })
-      tl.to(quoteWrapEl, { opacity: 1, duration: 0.65, ease: 'power2.out' }, 0.95)
-
-      // Beat 4: Scroll Indicator fade in
+      // Beat 3: Scroll Indicator fade in
       gsap.set(scrollEl, { opacity: 0, visibility: 'visible' })
-      tl.to(scrollEl, { opacity: 1, duration: 0.4, ease: 'power2.out' }, 1.3)
+      tl.to(scrollEl, { opacity: 1, duration: 0.4, ease: 'power2.out' }, 1.1)
 
       // All key elements visible — unlock scroll NOW before the cosmetic bounce plays.
       // This fires at t≈1.7s instead of t≈3.3s (saves 1.6s of frozen scroll).
@@ -114,7 +91,7 @@ export function Hero({ isVisible, onReady }: HeroProps) {
     }, rootRef)
 
     return () => ctx.revert()
-  }, [isVisible])
+  }, [isVisible, onReady])
 
   // Scroll exit animation hook
   useHeroScroll(
@@ -122,28 +99,14 @@ export function Hero({ isVisible, onReady }: HeroProps) {
     ruleRef,
     nameRef,
     roleContainerRef,
-    quoteWrapRef,
     scrollRef,
-    (intensity: number) => {
-      if (shaderRef.current) {
-        shaderRef.current.setScrollIntensity(intensity)
-      }
-    },
-    isVisible,      // Initialize ScrollTrigger and Pin immediately (prevents black flash)
+    bridgeRef,
+    setShaderIntensity,
     animationsReady // Add the tweens only after entry is done (captures correct values)
   )
 
   return (
     <section ref={rootRef} className="hero section" id="hero">
-      {/* Background Layer */}
-      {isMobile ? (
-        <div className="hero__bg-static" aria-hidden="true" />
-      ) : (
-        <Suspense fallback={<div className="hero__bg-static" aria-hidden="true" />}>
-          <HeroShaderLazy ref={shaderRef} />
-        </Suspense>
-      )}
-
       {/* Content Layer */}
       <div className="hero__content container">
         {/* The Lockup */}
@@ -178,15 +141,10 @@ export function Hero({ isVisible, onReady }: HeroProps) {
             ))}
           </div>
         </div>
-
-        {/* Quote */}
-        <div ref={quoteWrapRef} className="hero__quote-wrap gsap-hidden">
-          <QuoteWords 
-            text={heroCopy.quote} 
-            className="hero__quote"
-          />
-        </div>
       </div>
+
+      {/* Quote Bridge Transition Overlay */}
+      <QuoteBridge bridgeRef={bridgeRef} />
 
       {/* Scroll Indicator */}
       <div ref={scrollRef} className="hero__scroll gsap-hidden" aria-hidden="true">

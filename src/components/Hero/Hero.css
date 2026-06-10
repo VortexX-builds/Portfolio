@@ -8,25 +8,7 @@
 
 /* ─── Shader & Background ─────────────────────────────────────────────────── */
 
-.hero__canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.hero__bg-static {
-  position: absolute;
-  inset: 0;
-  background-color: var(--color-bg);
-  /* Simple SVG noise data URI for mobile fallback */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
-  z-index: 0;
-  pointer-events: none;
-}
+/* Removed .hero__canvas and .hero__bg-static in favor of global shader */
 
 /* ─── Content ──────────────────────────────────────────────────────────────── */
 
@@ -107,50 +89,48 @@
   will-change: transform, opacity;
 }
 
-.hero__quote-wrap {
-  grid-row: 3;
-  align-self: end;
-  justify-self: end;
-  margin-bottom: clamp(5rem, 10vh, 7rem);
-  /* sit safely above scroll indicator */
-  z-index: 1;
-  text-align: right;
+/* ─── Quote Bridge ───────────────────────────────────────────────────────── */
+
+.quote-bridge {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  /* Centered, confident, title card feel */
+  padding: 0 10vw;
 }
 
-.hero__quote {
-  font-family: var(--font-clash);
-  font-size: clamp(0.65rem, 1vw, 0.9rem);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--color-text-muted);
-  line-height: 1.6;
-  max-width: 100%;
-  margin: 0;
-  text-align: right;
+.quote-bridge__inner {
+  font-family: var(--font-quote);
+  font-style: italic;
+  font-size: clamp(2rem, 5vw, 6rem);
+  font-weight: 300;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-align: center;
+  /* To enable subtle Z-axis transforms */
+  perspective: 1000px;
 }
 
-.hero__quote-word {
+.quote-bridge__word,
+.quote-bridge__period {
   display: inline-block;
-  cursor: default;
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
+  /* Reduced motion handles scaling, but these are safely inert */
 }
 
-@media (hover: none) {
-  .hero__quote-word {
-    pointer-events: none;
-  }
+/* Ensure the space between words is maintained */
+.quote-bridge__word {
+  margin-right: 0.25em;
 }
 
-@media (hover: hover) {
-  .hero__quote-word:hover {
-    color: var(--color-text-primary);
-    transition: color 0.35s ease-out;
-  }
-
-  .hero__quote-word {
-    transition: color 0.55s ease-in-out;
-  }
+/* The last word shouldn't have right margin if the period is right next to it */
+.quote-bridge__word--last {
+  margin-right: 0;
 }
 
 /* ─── Scroll Indicator ─────────────────────────────────────────────────────── */

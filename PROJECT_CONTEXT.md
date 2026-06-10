@@ -102,10 +102,11 @@ Wherever "Sloak Gohil" appears (navbar, hero, about), hovering triggers a smooth
 |---|---|---|---|
 | 1 | Preloader | COMPLETE | Cinematic, ~2s, split curtain exit, reduced motion handled |
 | 2 | Navbar | COMPLETE | Glass surface post-hero, scroll hide/show, name flip, mobile radial overlay |
-| 3 | Hero | COMPLETE | Name + role + quote, subtle background motion, hover interaction |
-| 4 | Work | PENDING | 5 projects, full-width sequential scroll, no grid |
-| 5 | About | PENDING | 3 paragraphs, exact copy, name flip on hover |
-| 6 | Contact | PENDING | No form, direct email, confident closing copy |
+| 3 | Hero | COMPLETE | Name + role, subtle background motion, hover interaction |
+| 4 | Quote Bridge | COMPLETE | Scroll-scrubbed transition (+250vh pin), word-by-word assembly |
+| 5 | Work | PENDING | 5 projects, full-width sequential scroll, no grid |
+| 6 | About | PENDING | 3 paragraphs, exact copy, name flip on hover |
+| 7 | Contact | PENDING | No form, direct email, confident closing copy |
 
 **Build order is fixed.** Do not start next section until current one is approved.
 
@@ -195,7 +196,7 @@ Portfolio/
 **Bootstrap:** COMPLETE  
 **Preloader:** COMPLETE  
 **Navbar:** COMPLETE  
-**Hero:** COMPLETE  
+**Hero & Quote Bridge:** COMPLETE  
 **Current section in progress:** None  
 **Next section to build:** Work (awaiting approval to proceed)
 
@@ -211,3 +212,5 @@ Portfolio/
 | `src/tokens.ts` mirrors CSS custom properties | TypeScript-safe access in JS logic, CSS vars for styling |
 | `src/data/site.ts` for all content | Copy never hardcoded in JSX, single place to update |
 | Manual chunk splitting (react/gsap/three) | Prevents one large bundle, improves LCP |
+| Quote Bridge inside Hero pin | Extends the hero pin by 150vh (`+=250%`) to keep the shader running beneath the quote assembly |
+| Global WebGL Shader | Moved shader to fixed global background, relying on Page Visibility API to pause instead of IntersectionObserver |

@@ -60,8 +60,8 @@ void main() {
     // Scale UV for noise detail
     vec2 p = uv * 3.0 + warp; 
 
-    // Base time, modulated by scroll
-    float t = u_time * (0.15 + u_scrollIntensity * 0.2);
+    // Time is now fully managed by JS (accelerates on scroll)
+    float t = u_time;
 
     // Domain Warping - the secret to cinematic fluid
     vec2 q = vec2(fbm(p + vec2(0.0, 0.0)), fbm(p + vec2(5.2, 1.3)));
@@ -81,8 +81,8 @@ void main() {
     float gold_mask = smoothstep(0.4, 0.75, f * length(r));
     vec3 gold = vec3(0.204, 0.827, 0.600); // #34D399 — vibrant green filament
     
-    // Base resting filament opacity (6%), spikes to 18% on scroll
-    float gold_opacity = gold_mask * mix(0.06, 0.18, u_scrollIntensity); 
+    // Base resting filament opacity (6%), spikes to 20% based on scroll velocity
+    float gold_opacity = gold_mask * mix(0.06, 0.20, clamp(u_scrollIntensity, 0.0, 1.0)); 
     
     vec3 final_color = mix(base_color, gold, gold_opacity);
 
@@ -90,11 +90,9 @@ void main() {
 }
 `
 
-export interface HeroShaderRef {
-  setScrollIntensity: (val: number) => void
-}
+export interface GlobalShaderRef {}
 
-export const HeroShader = forwardRef<HeroShaderRef, {}>((_, ref) => {
+export const GlobalShader = forwardRef<GlobalShaderRef, {}>((_, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const uniformsRef = useRef({
     u_time: { value: 0 },
@@ -103,12 +101,7 @@ export const HeroShader = forwardRef<HeroShaderRef, {}>((_, ref) => {
     u_scrollIntensity: { value: 0 },
   })
 
-  // Expose scroll intensity setter to parent
-  useImperativeHandle(ref, () => ({
-    setScrollIntensity: (val: number) => {
-      uniformsRef.current.u_scrollIntensity.value = Math.min(Math.max(val, 0), 1)
-    },
-  }))
+  useImperativeHandle(ref, () => ({}))
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -122,7 +115,8 @@ export const HeroShader = forwardRef<HeroShaderRef, {}>((_, ref) => {
       alpha: false,
       powerPreference: 'high-performance',
     })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.0))
+    // Cap pixel ratio at 1.5 per instructions
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     renderer.setClearColor(0x010606, 1) // Base dark background
 
     // Scene & Camera
@@ -167,37 +161,59 @@ export const HeroShader = forwardRef<HeroShaderRef, {}>((_, ref) => {
     // Animation Loop
     let rafId: number
     const clock = new THREE.Clock()
+    let customTime = 0
+    let lastScrollY = window.scrollY
+    let currentScrollVelocity = 0
 
     const animate = () => {
-      // Lerp mouse
+      // 1. Calculate scroll velocity for this frame
+      const currentScrollY = window.scrollY
+      const deltaY = Math.abs(currentScrollY - lastScrollY)
+      lastScrollY = currentScrollY
+
+      // Target velocity based on pixels moved (tuned for smooth visual)
+      let targetVelocity = deltaY * 0.05
+      targetVelocity = Math.min(targetVelocity, 3.0) // Cap max speed
+
+      // Smoothly interpolate current velocity towards target (decay when stopped)
+      currentScrollVelocity += (targetVelocity - currentScrollVelocity) * 0.08
+
+      // Update shader scroll intensity uniform for the gold filament opacity
+      uniformsRef.current.u_scrollIntensity.value = currentScrollVelocity
+
+      // 2. Accumulate custom time safely
+      const dt = clock.getDelta() // time since last frame
+      // Base resting speed = 0.15. When scrolling, add velocity to speed up time
+      customTime += dt * (0.15 + currentScrollVelocity * 1.5)
+      uniformsRef.current.u_time.value = customTime
+
+      // 3. Lerp mouse
       currentMouse.x += (targetMouse.x - currentMouse.x) * 0.06
       currentMouse.y += (targetMouse.y - currentMouse.y) * 0.06
       uniformsRef.current.u_mouse.value.set(currentMouse.x, currentMouse.y)
-
-      // Time
-      uniformsRef.current.u_time.value = clock.getElapsedTime()
 
       renderer.render(scene, camera)
       rafId = requestAnimationFrame(animate)
     }
 
-    // IntersectionObserver to pause when off-screen
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          clock.start() // resume time
-          animate()
-        } else {
-          clock.stop()
-          cancelAnimationFrame(rafId)
-        }
-      },
-      { threshold: 0.0 }
-    )
-    observer.observe(canvas)
+    // Start animation loop immediately
+    clock.start()
+    animate()
+
+    // Page Visibility API to pause when off-screen/tab hidden
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        clock.stop()
+        cancelAnimationFrame(rafId)
+      } else {
+        clock.start()
+        animate()
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange)
 
     return () => {
-      observer.disconnect()
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
       resizeObserver.disconnect()
       window.removeEventListener('mousemove', handleMouseMove)
       cancelAnimationFrame(rafId)
@@ -208,5 +224,5 @@ export const HeroShader = forwardRef<HeroShaderRef, {}>((_, ref) => {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="hero__canvas" aria-hidden="true" />
+  return <canvas ref={canvasRef} className="global-bg" aria-hidden="true" />
 })
