@@ -57,6 +57,7 @@
 html {
   /* Lenis smooth scroll overrides browser default */
   scroll-behavior: auto;
+  scrollbar-gutter: stable;
 }
 
 body {

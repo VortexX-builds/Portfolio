@@ -15,11 +15,11 @@ export function useHeroScroll(
   // Store the timeline so we can add tweens to it later
   const tlRef = useRef<gsap.core.Timeline | null>(null)
 
-  // Step 1: Initialize ScrollTrigger and Pin immediately when visible.
+  // Step 1: Initialize ScrollTrigger and Pin immediately on mount.
   // This prevents the DOM "flash" / black screen caused by the pin-spacer
   // being added *after* the canvas has already rendered.
   useEffect(() => {
-    if (!isVisible || !heroRef.current) return
+    if (!heroRef.current) return
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -39,7 +39,7 @@ export function useHeroScroll(
     }, heroRef)
 
     return () => ctx.revert()
-  }, [isVisible, heroRef, setScrollIntensity])
+  }, [heroRef, setScrollIntensity])
 
   // Step 2: Add the animation tweens ONLY after the entry animation finishes.
   // This ensures all .to() tweens capture the final fully-visible state (opacity: 1)
@@ -105,11 +105,13 @@ export function useHeroScroll(
       }, 0)
     }
 
-    // Scroll indicator fades first
+    // Scroll indicator fades and drifts down
     tl.to(scrollIndicatorRef.current, {
+      y: prefersReduced ? 0 : 20,
       opacity: 0,
-      ease: 'none',
-      duration: 0.2
+      filter: prefersReduced ? 'blur(0px)' : 'blur(4px)',
+      ease: 'power1.in',
+      duration: 0.6
     }, 0)
 
   }, [animationsReady, ruleRef, nameRef, roleRef, quoteWrapRef, scrollIndicatorRef])

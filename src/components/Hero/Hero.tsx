@@ -103,10 +103,13 @@ export function Hero({ isVisible, onReady }: HeroProps) {
       }, [], 1.75)
 
       // Beat 5: Scroll indicator cosmetic bounce (continues after scroll unlocks)
-      tl.to(scrollEl, {
-        opacity: 0.3, duration: 0.8, ease: 'power1.inOut',
-        yoyo: true, repeat: 1
-      }, '>')
+      const scrollSpan = scrollEl?.querySelector('span')
+      if (scrollSpan) {
+        tl.to(scrollSpan, {
+          opacity: 0.3, duration: 0.8, ease: 'power1.inOut',
+          yoyo: true, repeat: -1
+        }, '>')
+      }
 
     }, rootRef)
 
