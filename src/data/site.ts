@@ -4,6 +4,12 @@
  * Components import from here — no hardcoded content in JSX.
  */
 
+import phaseOneVfxImg       from '../assets/works/phase-one-vfx.png'
+import novaraHospitalImg    from '../assets/works/novara-hospital.png'
+import stoicVfxImg          from '../assets/works/stoic-vfx.png'
+import theMonolithGymImg    from '../assets/works/the-monolith-gym.png'
+import vibrewCoffeeImg      from '../assets/works/vibrew-coffee-shop.png'
+
 export const siteIdentity = {
   realName: 'Sloak Gohil',
   craftName: 'VortexX',
@@ -24,48 +30,50 @@ export const projects = [
     id: 'phase-one-vfx',
     index: '01',
     title: 'Phase One VFX',
-    description: 'VFX studio site.',
-    link: '', // live link to be provided
-    image: '', // screenshot to be provided
+    type: 'VFX Studio — Frontend',
+    // LIVE: update if URL changes
+    link: 'https://phaseonevfx.com' as string | null,
+    // TODO: replace with real screenshot paths when available
+    images: [phaseOneVfxImg],
     tags: ['React', 'GSAP', 'Three.js'],
   },
   {
     id: 'novara-hospital',
     index: '02',
     title: 'Novara Hospital',
-    description: 'Hospital and clinic frontend.',
-    link: '',
-    image: '',
+    type: 'Healthcare — Frontend',
+    link: 'https://novara-two.vercel.app',
+    images: [novaraHospitalImg],
     tags: ['React', 'TypeScript', 'GSAP'],
   },
   {
     id: 'stoic-vfx',
     index: '03',
     title: 'Stoic VFX',
-    description: 'VFX studio.',
-    link: '',
-    image: '',
+    type: 'VFX Studio — Frontend',
+    link: 'https://stoic-vfx.vercel.app',
+    images: [stoicVfxImg],
     tags: ['React', 'GSAP'],
   },
   {
-    id: 'the-monolith',
+    id: 'the-monolith-gym',
     index: '04',
-    title: 'The Monolith',
-    description: '',
-    link: '',
-    image: '',
-    tags: [],
+    title: 'The Monolith Gym',
+    type: 'Fitness — Frontend',
+    link: 'https://the-monolith.netlify.app',
+    images: [theMonolithGymImg],
+    tags: ['React', 'TypeScript'],
   },
   {
-    id: 'coffee-shop-one',
+    id: 'vibrew-coffee',
     index: '05',
-    title: 'Coffee Shop One',
-    description: '',
-    link: '',
-    image: '',
-    tags: [],
+    title: 'Vibrew Coffee Shop',
+    type: 'F&B — Frontend',
+    link: 'https://vibrew-web.vercel.app',
+    images: [vibrewCoffeeImg],
+    tags: ['React', 'GSAP'],
   },
-] as const
+]
 
 /**
  * About copy — exact text, do not alter.
@@ -78,7 +86,7 @@ export const aboutCopy = [
 
 export const heroCopy = {
   roleFragments: ['Frontend Developer.', 'Motion.', 'Interaction.'],
-  quote: 'Objects in the vision are closer than they appear.',
+  quote: 'The difference is in the details.',
   scrollLabel: 'scroll',
 } as const
 

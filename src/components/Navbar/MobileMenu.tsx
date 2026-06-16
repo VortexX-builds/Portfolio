@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { navLinks, siteIdentity } from '../../data/site'
 import { duration, ease } from '../../tokens'
+import { scrollToSection } from '../../hooks/useLenis'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -99,8 +100,10 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     }
   }, [isOpen])
 
-  function handleLinkClick() {
+  function handleLinkClick(href: string) {
     onClose()
+    // Delay scroll slightly so the close animation doesn't fight the scroll
+    setTimeout(() => scrollToSection(href), 350)
   }
 
   return (
@@ -128,7 +131,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             href={link.href}
             ref={el => { if (el) linksRef.current[i] = el }}
             className="mobile-menu__link"
-            onClick={handleLinkClick}
+            onClick={(e) => { e.preventDefault(); handleLinkClick(link.href) }}
             tabIndex={isOpen ? 0 : -1}
           >
             {link.label}

@@ -3,9 +3,15 @@ import { useLenis } from './hooks/useLenis'
 import { Preloader } from './components/Preloader/Preloader'
 import { Navbar } from './components/Navbar/Navbar'
 import { Hero } from './components/Hero/Hero'
+import { Work } from './components/Work/Work'
 import type { GlobalShaderRef } from './components/GlobalShader/GlobalShader'
 
 const GlobalShaderLazy = lazy(() => import('./components/GlobalShader/GlobalShader').then(m => ({ default: m.GlobalShader })))
+
+// Prevent browser from restoring scroll position on reload as early as possible
+if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
+  history.scrollRestoration = 'manual'
+}
 
 export default function App() {
   // Initialize Lenis smooth scroll + GSAP ScrollTrigger sync at app root.
@@ -26,6 +32,8 @@ export default function App() {
   })
 
   useEffect(() => {
+    window.scrollTo(0, 0)
+
     const checkMobile = () => {
       const match = window.matchMedia('(hover: none) and (pointer: coarse)')
       setIsMobile(window.innerWidth <= 768 || match.matches || !window.WebGLRenderingContext)
@@ -67,13 +75,12 @@ export default function App() {
         <Hero 
           isVisible={preloaderDone} 
           onReady={handleHeroReady} 
-          setShaderIntensity={(val) => shaderRef.current?.setScrollIntensity(val)}
         />
-        {/* Build order: Work → About → Contact */}
-        {/* Work section is next, ensuring background remains transparent to show shader */}
-        <section style={{ height: '150vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+        <Work />
+        {/* Build order: About → Contact */}
+        <section style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--color-bg)' }}>
           <h2 style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-heading)', fontWeight: 400 }}>
-            [ Work Section Incoming ]
+            [ About Section Incoming ]
           </h2>
         </section>
       </main>

@@ -6,6 +6,22 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 // Register GSAP plugins globally — done once here, available everywhere
 gsap.registerPlugin(ScrollTrigger)
 
+/** Module-level singleton — accessible without prop-drilling */
+let _lenis: Lenis | null = null
+
+/**
+ * Smoothly scroll to a CSS selector or element using the active Lenis instance.
+ * Falls back to native scrollIntoView if Lenis hasn't been initialised yet.
+ */
+export function scrollToSection(target: string | HTMLElement, offset = 0) {
+  if (_lenis) {
+    _lenis.scrollTo(target, { offset, duration: 1.4 })
+  } else {
+    const el = typeof target === 'string' ? document.querySelector(target) : target
+    el?.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
 export function useLenis() {
   const lenisRef = useRef<Lenis | null>(null)
 
@@ -17,6 +33,7 @@ export function useLenis() {
     })
 
     lenisRef.current = lenis
+    _lenis = lenis
 
     // Start scroll locked — the preloader will call lenis.start() on its
     // onComplete callback. If there is no preloader (reduced motion), App.tsx
@@ -35,6 +52,7 @@ export function useLenis() {
     return () => {
       lenis.destroy()
       lenisRef.current = null
+      _lenis = null
     }
   }, [])
 

@@ -8,10 +8,9 @@ import './Hero.css'
 interface HeroProps {
   isVisible: boolean
   onReady?: () => void
-  setShaderIntensity: (val: number) => void
 }
 
-export function Hero({ isVisible, onReady, setShaderIntensity }: HeroProps) {
+export function Hero({ isVisible, onReady }: HeroProps) {
   const rootRef = useRef<HTMLElement>(null)
   const ruleRef = useRef<HTMLDivElement>(null)
   const nameRef = useRef<HTMLHeadingElement>(null)
@@ -101,7 +100,6 @@ export function Hero({ isVisible, onReady, setShaderIntensity }: HeroProps) {
     roleContainerRef,
     scrollRef,
     bridgeRef,
-    setShaderIntensity,
     animationsReady // Add the tweens only after entry is done (captures correct values)
   )
 

@@ -5,6 +5,7 @@ import { navLinks, siteIdentity } from '../../data/site'
 import { zIndex, duration, ease } from '../../tokens'
 import { NameFlip, type NameFlipHandle } from './NameFlip'
 import { MobileMenu } from './MobileMenu'
+import { scrollToSection } from '../../hooks/useLenis'
 import './Navbar.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -158,6 +159,11 @@ export function Navbar({ isVisible }: NavbarProps) {
 
   const handleMenuClose = useCallback(() => setMobileOpen(false), [])
 
+  const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault()
+    scrollToSection(href)
+  }, [])
+
   return (
     <>
       <header
@@ -192,6 +198,7 @@ export function Navbar({ isVisible }: NavbarProps) {
                   href={link.href}
                   ref={el => { if (el) linksRef.current[i] = el }}
                   className="navbar__link"
+                  onClick={(e) => handleNavClick(e, link.href)}
                 >
                   {link.label}
                 </a>

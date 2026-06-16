@@ -8,7 +8,6 @@ export function useHeroScroll(
   roleRef: React.RefObject<HTMLElement | null>,
   scrollIndicatorRef: React.RefObject<HTMLElement | null>,
   bridgeRef: React.RefObject<HTMLElement | null>,
-  setScrollIntensity: (val: number) => void,
   animationsReady: boolean
 ) {
   // Store the timeline so we can add tweens to it later
@@ -18,28 +17,20 @@ export function useHeroScroll(
   useEffect(() => {
     if (!heroRef.current) return
 
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
     const ctx = gsap.context(() => {
       tlRef.current = gsap.timeline({
         scrollTrigger: {
           trigger: heroRef.current,
           start: 'top top',
-          end: '+=250%', // Extended pin: accommodates Hero exit + Quote Bridge
+          end: '+=180%', // Trimmed: hero exit + quote bridge, no dead scroll gap
           pin: true,
-          scrub: 1,
-          onUpdate: (self) => {
-            // Intensify shader in the first 40% of scroll (hero exit) and hold it
-            if (!prefersReduced) {
-              setScrollIntensity(Math.min(1, self.progress * 2.5))
-            }
-          }
+          scrub: 1
         }
       })
     }, heroRef)
 
     return () => ctx.revert()
-  }, [heroRef, setScrollIntensity])
+  }, [heroRef])
 
   // Step 2: Add the animation tweens ONLY after the entry animation finishes.
   useEffect(() => {
@@ -156,9 +147,8 @@ export function useHeroScroll(
       }, 2.6) // Starts dissolving near the end
     }
 
-    // Add empty space to ensure total timeline duration reaches around 3.2
-    // This gives the dissolve time to fully finish before unpinning.
-    tl.to({}, { duration: 0.1 }, 3.2)
+    // Small hold so the dissolve fully completes before the pin releases.
+    tl.to({}, { duration: 0.1 }, 2.7)
 
   }, [animationsReady, ruleRef, nameRef, roleRef, bridgeRef, scrollIndicatorRef])
 }
