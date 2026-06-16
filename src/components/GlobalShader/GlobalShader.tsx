@@ -1,5 +1,5 @@
 import { useRef, useEffect, useImperativeHandle, forwardRef } from 'react'
-import * as THREE from 'three'
+import { Vector2, WebGLRenderer, Scene, OrthographicCamera, PlaneGeometry, ShaderMaterial, Mesh, Clock } from 'three'
 
 const vertexShader = `
 varying vec2 vUv;
@@ -96,8 +96,8 @@ export const GlobalShader = forwardRef<GlobalShaderRef, {}>((_, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const uniformsRef = useRef({
     u_time: { value: 0 },
-    u_resolution: { value: new THREE.Vector2() },
-    u_mouse: { value: new THREE.Vector2(0.5, 0.5) },
+    u_resolution: { value: new Vector2() },
+    u_mouse: { value: new Vector2(0.5, 0.5) },
     u_scrollIntensity: { value: 0 },
   })
 
@@ -105,11 +105,15 @@ export const GlobalShader = forwardRef<GlobalShaderRef, {}>((_, ref) => {
 
   useEffect(() => {
     if (!canvasRef.current) return
+    
+    // Disable on mobile completely for performance
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+    if (isMobile) return
 
     const canvas = canvasRef.current
     
     // Renderer setup
-    const renderer = new THREE.WebGLRenderer({
+    const renderer = new WebGLRenderer({
       canvas,
       antialias: false,
       alpha: false,
@@ -120,13 +124,13 @@ export const GlobalShader = forwardRef<GlobalShaderRef, {}>((_, ref) => {
     renderer.setClearColor(0x010606, 1) // Base dark background
 
     // Scene & Camera
-    const scene = new THREE.Scene()
+    const scene = new Scene()
     // Orthographic camera covering NDC perfectly
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
+    const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1)
 
     // Geometry & Material
-    const geometry = new THREE.PlaneGeometry(2, 2)
-    const material = new THREE.ShaderMaterial({
+    const geometry = new PlaneGeometry(2, 2)
+    const material = new ShaderMaterial({
       vertexShader,
       fragmentShader,
       uniforms: uniformsRef.current,
@@ -134,7 +138,7 @@ export const GlobalShader = forwardRef<GlobalShaderRef, {}>((_, ref) => {
       depthTest: false,
     })
 
-    const mesh = new THREE.Mesh(geometry, material)
+    const mesh = new Mesh(geometry, material)
     scene.add(mesh)
 
     // Mouse tracking setup
@@ -160,7 +164,7 @@ export const GlobalShader = forwardRef<GlobalShaderRef, {}>((_, ref) => {
 
     // Animation Loop
     let rafId: number
-    const clock = new THREE.Clock()
+    const clock = new Clock()
     let customTime = 0
     let lastScrollY = window.scrollY
     let currentScrollVelocity = 0

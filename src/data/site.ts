@@ -4,11 +4,11 @@
  * Components import from here — no hardcoded content in JSX.
  */
 
-import phaseOneVfxImg       from '../assets/works/phase-one-vfx.png'
-import novaraHospitalImg    from '../assets/works/novara-hospital.png'
-import stoicVfxImg          from '../assets/works/stoic-vfx.png'
-import theMonolithGymImg    from '../assets/works/the-monolith-gym.png'
-import vibrewCoffeeImg      from '../assets/works/vibrew-coffee-shop.png'
+import phaseOneVfxImg       from '../assets/works/phase-one-vfx.webp'
+import novaraHospitalImg    from '../assets/works/novara-hospital.webp'
+import stoicVfxImg          from '../assets/works/stoic-vfx.webp'
+import theMonolithGymImg    from '../assets/works/the-monolith-gym.webp'
+import vibrewCoffeeImg      from '../assets/works/vibrew-coffee-shop.webp'
 
 export const siteIdentity = {
   realName: 'Sloak Gohil',

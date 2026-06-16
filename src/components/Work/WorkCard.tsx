@@ -44,7 +44,10 @@ export const WorkCard = React.memo(function WorkCard({
             src={project.images[0]}
             alt={project.title}
             className="work__card-image"
-            loading="lazy"
+            loading={project.index === '01' ? 'eager' : 'lazy'}
+            fetchPriority={project.index === '01' ? 'high' : 'auto'}
+            width={1200}
+            height={800}
             draggable={false}
           />
         ) : (

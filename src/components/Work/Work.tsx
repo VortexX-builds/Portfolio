@@ -71,7 +71,7 @@ export function Work() {
 
     // Now override to the START state the entry animation expects:
     // active card: visible, but slightly enlarged and blurred (camera focus effect)
-    if (activeCard) gsap.set(activeCard, { opacity: 1, y: 0, scale: 1.06, filter: 'blur(22px)' })
+    if (activeCard) gsap.set(activeCard, { opacity: 0, y: 0, scale: 1.06 })
     // ghost cards: invisible, at their resting positions
     if (leftCard)   gsap.set(leftCard,   { opacity: 0, x: '-70vw' })
     if (rightCard)  gsap.set(rightCard,  { opacity: 0, x: '70vw'  })
@@ -125,8 +125,8 @@ export function Work() {
             const activeCard = cardRefs.current[0]?.current
             if (activeCard) {
               tl.to(activeCard, {
+                opacity: 1,
                 scale: 1,
-                filter: 'blur(0px)',
                 duration: 0.85,
                 ease: 'power2.out',
               }, 0)

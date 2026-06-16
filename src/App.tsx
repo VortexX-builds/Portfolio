@@ -24,6 +24,9 @@ export default function App() {
     return window.innerWidth <= 768 || match.matches || !window.WebGLRenderingContext
   })
 
+  // Defer shader to prioritize main thread rendering
+  const [shaderEnabled, setShaderEnabled] = useState(false)
+
   // Preloader state
   const [preloaderDone, setPreloaderDone] = useState(() => {
     if (typeof window === 'undefined') return false
@@ -40,7 +43,13 @@ export default function App() {
     }
     checkMobile()
     window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    
+    const timer = setTimeout(() => setShaderEnabled(true), 100)
+
+    return () => {
+      window.removeEventListener('resize', checkMobile)
+      clearTimeout(timer)
+    }
   }, [])
 
   const handlePreloaderDone = useCallback(() => {
@@ -58,7 +67,7 @@ export default function App() {
         <div className="global-bg-static" aria-hidden="true" />
       ) : (
         <Suspense fallback={<div className="global-bg-static" aria-hidden="true" />}>
-          <GlobalShaderLazy ref={shaderRef} />
+          {shaderEnabled && <GlobalShaderLazy ref={shaderRef} />}
         </Suspense>
       )}
 
