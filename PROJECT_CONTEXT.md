@@ -46,14 +46,19 @@
 
 ### Typography
 
-- **Font:** Inter (400, 500, 600, 700, 900)
+- **Primary Font:** Inter (400, 500, 600, 700, 900)
+- **About Section Font:** Boska (variable weight 200-700, about section only)
+  - Self-hosted: `public/fonts/Boska-Variable.woff2`
+  - CSS token: `--font-boska`
+  - TS token: `fontFamily.boska`
+  - Scoped exclusively to the about section. Not used anywhere else.
 - **Scale:** Defined as CSS custom properties in `src/index.css`
   - `--text-hero`: clamp(3.5rem, 9vw, 9rem)
   - `--text-display`: clamp(2.5rem, 6vw, 6rem)
   - `--text-heading`: clamp(1.75rem, 3vw, 3rem)
   - `--text-title`: clamp(1.25rem, 2vw, 1.75rem)
 - **Letter spacing:** `-0.03em` for display text, `0.15em` for uppercase labels only
-- **Line height:** `1.1` for hero/display, `1.6` for body
+- **Line height:** `1.1` for hero/display, `1.6` for body, `1.8` for about section
 
 ### Motion Philosophy
 
@@ -105,7 +110,7 @@ Wherever "Sloak Gohil" appears (navbar, hero, about), hovering triggers a smooth
 | 3 | Hero | COMPLETE | Name + role, subtle background motion, hover interaction |
 | 4 | Quote Bridge | COMPLETE | Scroll-scrubbed transition (+250vh pin), word-by-word assembly |
 | 5 | Work | PENDING | 5 projects, full-width sequential scroll, no grid |
-| 6 | About | PENDING | 3 paragraphs, exact copy, name flip on hover |
+| 6 | About | COMPLETE | Single-column Boska serif, strikethrough correction mechanic, scroll-triggered once, sage rule |
 | 7 | Contact | PENDING | No form, direct email, confident closing copy |
 
 **Build order is fixed.** Do not start next section until current one is approved.
@@ -128,18 +133,28 @@ Work section: full-width or near full-width sequential scroll. Project name, bri
 
 ---
 
-## About Copy (Exact, Do Not Alter)
+## About Section (Exact Copy, Do Not Alter)
 
-Paragraph 1:
-> I'm Sloak Gohil. I build websites that don't look like websites.
+**Paragraph 1 (greeting, no strikethrough):**
+> I'm Sloak Gohil.
 
-Paragraph 2:
-> React, Three.js, GSAP, TypeScript — the technical side is handled. What actually matters is that every project I touch feels premium, intentional, and nothing like the generic slop flooding the internet.
+**Paragraph 2 (strikethrough correction):**
+> I build ~~pretty websites~~ websites that don't look like websites.
 
-Paragraph 3:
-> If you can feel the difference, you already know what I do.
+**Paragraph 3 (no strikethrough):**
+> React, Three.js, GSAP, TypeScript. The technical side is handled. What actually matters is that every project I touch feels premium, intentional, and nothing like the generic slop flooding the internet.
 
-**Note:** The em dash in paragraph 2 is in the original brief. Render it as provided in the data file. The "no em dashes" rule applies to copy we write ourselves.
+**Paragraph 4 (strikethrough correction):**
+> If you can feel the difference, ~~let's work together~~ you already know what I do.
+
+### Strikethrough Correction Mechanic
+
+Two paragraphs use an inline correction interaction triggered once on scroll entry:
+1. Struck words appear at full opacity as part of the sentence.
+2. A thin `#A8D5B5` line draws across them left-to-right (scaleX 0 to 1, 0.3s).
+3. Struck words drop to 40% opacity.
+4. Replacement words fade in immediately after (0.25s).
+5. Final state held permanently. Plays once. No reset on scroll.
 
 ---
 
@@ -197,8 +212,9 @@ Portfolio/
 **Preloader:** COMPLETE  
 **Navbar:** COMPLETE  
 **Hero & Quote Bridge:** COMPLETE  
+**About:** COMPLETE (rebuilt with Boska serif, strikethrough correction mechanic)  
 **Current section in progress:** None  
-**Next section to build:** Work (awaiting approval to proceed)
+**Next section to build:** Contact (awaiting approval to proceed)
 
 ---
 
@@ -214,3 +230,5 @@ Portfolio/
 | Manual chunk splitting (react/gsap/three) | Prevents one large bundle, improves LCP |
 | Quote Bridge inside Hero pin | Extends the hero pin by 150vh (`+=250%`) to keep the shader running beneath the quote assembly |
 | Global WebGL Shader | Moved shader to fixed global background, relying on Page Visibility API to pause instead of IntersectionObserver |
+| Boska variable serif for About | Scoped to about section only. Self-hosted woff2 at `public/fonts/Boska-Variable.woff2`. Preloaded. Does not affect any other section. |
+| Strikethrough correction mechanic | Inline `display: inline` DOM structure. Struck text + strikethrough line + replacement text all flow in the same sentence. Natural line wrapping at all viewports. GSAP timeline plays once via `toggleActions: 'play none none none'` at `start: 'top 70%'`. |

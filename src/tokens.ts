@@ -24,6 +24,7 @@ export const fontFamily = {
   sans: "'Inter', system-ui, -apple-system, sans-serif",
   mono: "'JetBrains Mono', 'Fira Code', monospace",
   clash: "'Clash Display', system-ui, sans-serif",
+  boska: "'Boska', 'Georgia', serif",
 } as const
 
 /**

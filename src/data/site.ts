@@ -76,13 +76,38 @@ export const projects = [
 ]
 
 /**
- * About copy — exact text, do not alter.
- * Paragraphs are separated arrays for easy rendering.
+ * About section content with strikethrough correction mechanic.
+ * Each paragraph is typed as 'plain' or 'correction'.
+ * Correction paragraphs carry the struck/replacement word pairs.
+ * Exact copy. Do not alter.
  */
-export const aboutCopy = [
-  "I'm Sloak Gohil. I build websites that don't look like websites.",
-  "React, Three.js, GSAP, TypeScript — the technical side is handled. What actually matters is that every project I touch feels premium, intentional, and nothing like the generic slop flooding the internet.",
-] as const
+export const aboutContent = {
+  paragraphs: [
+    {
+      type: 'plain' as const,
+      text: "I'm Sloak Gohil.",
+      isGreeting: true,
+    },
+    {
+      type: 'correction' as const,
+      before: 'I build ',
+      struck: 'pretty websites',
+      replacement: " websites that don't look like websites.",
+      after: '',
+    },
+    {
+      type: 'plain' as const,
+      text: 'React, Three.js, GSAP, TypeScript. The technical side is handled. What actually matters is that every project I touch feels premium, intentional, and nothing like the generic slop flooding the internet.',
+    },
+    {
+      type: 'correction' as const,
+      before: 'If you can feel the difference, ',
+      struck: "let's work together",
+      replacement: ' you already know what I do.',
+      after: '',
+    },
+  ],
+} as const
 
 export const heroCopy = {
   roleFragments: ['Frontend Developer.', 'Motion.', 'Interaction.'],

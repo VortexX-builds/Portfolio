@@ -4,6 +4,7 @@ import { Preloader } from './components/Preloader/Preloader'
 import { Navbar } from './components/Navbar/Navbar'
 import { Hero } from './components/Hero/Hero'
 import { Work } from './components/Work/Work'
+import { About } from './components/About/About'
 import type { GlobalShaderRef } from './components/GlobalShader/GlobalShader'
 
 const GlobalShaderLazy = lazy(() => import('./components/GlobalShader/GlobalShader').then(m => ({ default: m.GlobalShader })))
@@ -86,12 +87,8 @@ export default function App() {
           onReady={handleHeroReady} 
         />
         <Work />
-        {/* Build order: About → Contact */}
-        <section style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--color-bg)' }}>
-          <h2 style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-heading)', fontWeight: 400 }}>
-            [ About Section Incoming ]
-          </h2>
-        </section>
+        <About />
+        {/* Build order: Contact next */}
       </main>
     </>
   )

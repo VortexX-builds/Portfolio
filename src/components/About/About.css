@@ -1,0 +1,188 @@
+/* ─── About Section ────────────────────────────────────────────────────────── */
+
+.about {
+  position: relative;
+  padding-top: 15vh;
+  padding-bottom: 15vh;
+
+  /* Scoped color tokens */
+  --about-sage: #A8D5B5;
+}
+
+/* ─── Section label — matches work__label treatment ───────────────────────── */
+
+.about__label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #4A7C6F;
+  margin-bottom: 2rem;
+  opacity: 0; /* GSAP fades in */
+}
+
+/* ─── Centered single column ──────────────────────────────────────────────── */
+
+.about__copy {
+  position: relative;
+  max-width: 62vw;
+  margin-inline: auto;
+}
+
+/* ─── Paragraph spacing ───────────────────────────────────────────────────── */
+
+.about__paragraph {
+  margin-bottom: 1.5rem;
+  min-height: 1.8em; /* Prevent collapse when text is empty during typewriter */
+}
+
+.about__paragraph:last-of-type {
+  margin-bottom: 0;
+}
+
+.about__paragraph--greeting {
+  margin-bottom: 2rem;
+  min-height: 1.4em;
+}
+
+/* ─── Paragraph line container ────────────────────────────────────────────── */
+
+.about__line {
+  display: block;
+  font-family: var(--font-boska);
+  line-height: 1.8;
+}
+
+/* ─── Greeting typography ─────────────────────────────────────────────────── */
+
+.about__paragraph--greeting .about__line {
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #DAF1DE;
+  line-height: 1.4;
+}
+
+/* ─── Body paragraph typography ───────────────────────────────────────────── */
+
+.about__paragraph--body .about__line {
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  font-weight: 400;
+  color: #DAF1DE;
+  line-height: 1.8;
+}
+
+/* ─── Struck word group — inline, positioned for the line overlay ─────────── */
+
+.about__struck-group {
+  position: relative;
+  display: inline;
+}
+
+.about__struck-text {
+  position: relative;
+  z-index: 1;
+}
+
+.about__struck-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background-color: var(--about-sage);
+  transform: scaleX(0);
+  transform-origin: left center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ─── Typewriter cursor ───────────────────────────────────────────────────── */
+
+.about__cursor {
+  position: absolute;
+  color: var(--about-sage);
+  font-family: var(--font-boska);
+  font-weight: 400;
+  pointer-events: none;
+  user-select: none;
+  z-index: 5;
+  animation: aboutCursorBlink 1.06s step-end infinite;
+  /* Match body text size by default; greeting overrides via JS */
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  line-height: 1.8;
+}
+
+.about__cursor--typing {
+  animation: none;
+  opacity: 1;
+}
+
+.about__cursor--greeting {
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  line-height: 1.4;
+}
+
+@keyframes aboutCursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ─── Sage rule ────────────────────────────────────────────────────────────── */
+
+.about__sage-rule {
+  width: 45px;
+  height: 1px;
+  background-color: var(--about-sage);
+  transform-origin: left center;
+  transform: scaleX(0);
+  margin-top: 2rem;
+}
+
+/* ─── Responsive — Tablet ──────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .about__copy {
+    max-width: 78vw;
+  }
+}
+
+/* ─── Responsive — Mobile ──────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .about {
+    padding-top: max(12vh, 5rem);
+    padding-bottom: max(12vh, 5rem);
+  }
+
+  .about__copy {
+    max-width: 100%;
+    padding-inline: 1.5rem;
+  }
+}
+
+/* ─── Reduced Motion ───────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .about__label {
+    opacity: 1 !important;
+  }
+
+  .about__struck-line {
+    transform: scaleX(1) !important;
+  }
+
+  .about__struck-text {
+    opacity: 0.4 !important;
+  }
+
+  .about__sage-rule {
+    transform: scaleX(1) !important;
+  }
+
+  .about__cursor {
+    display: none !important;
+  }
+}

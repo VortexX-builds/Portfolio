@@ -8,6 +8,14 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Boska';
+  src: url('/fonts/Boska-Variable.woff2') format('woff2-variations');
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
 /* ─── CSS Custom Properties (design tokens mirrored for global use) ────────── */
 :root {
   /* Colors */
@@ -25,6 +33,7 @@
   --font-cinematic: 'Cinzel', serif;
   --font-clash: 'Clash Display', system-ui, sans-serif;
   --font-quote: 'Cormorant Garamond', serif;
+  --font-boska: 'Boska', 'Georgia', serif;
 
   /* Fluid type scale */
   --text-hero:    clamp(3.5rem, 9vw, 9rem);
