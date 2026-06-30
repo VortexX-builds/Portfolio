@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { aboutContent } from '../../data/site'
+import { getLenis, restrictScrollDown, releaseScrollDown } from '../../hooks/useLenis'
 import './About.css'
 
-const CHAR_MS = 0.030 // 30ms per character
+const CHAR_MS = 0.020 // 20ms per character
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -162,7 +163,22 @@ export function About() {
           trigger: section,
           start: 'top 70%',
           toggleActions: 'play none none none',
+          onEnter: () => {
+            const lenis = getLenis()
+            if (lenis) {
+              lenis.scrollTo(section, {
+                duration: 1.0,
+                lock: true,
+                onComplete: () => {
+                  restrictScrollDown(lenis.scroll)
+                }
+              })
+            }
+          }
         },
+        onComplete: () => {
+          releaseScrollDown()
+        }
       })
 
       let t = 0
@@ -240,9 +256,14 @@ export function About() {
         { scaleX: 0 },
         { scaleX: 1, duration: 0.5, ease: 'power3.out' },
         t)
+
+      // Screen pinning removed so lower section triggers load independently and height remains stable
     }, section)
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert()
+      releaseScrollDown()
+    }
   }, [])
 
   return (

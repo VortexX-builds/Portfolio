@@ -9,6 +9,28 @@ gsap.registerPlugin(ScrollTrigger)
 /** Module-level singleton — accessible without prop-drilling */
 let _lenis: Lenis | null = null
 
+export function getLenis() {
+  return _lenis
+}
+
+export function stopScroll() {
+  _lenis?.stop()
+}
+
+export function startScroll() {
+  _lenis?.start()
+}
+
+let _maxScrollLimit: number | null = null
+
+export function restrictScrollDown(limit: number) {
+  _maxScrollLimit = limit
+}
+
+export function releaseScrollDown() {
+  _maxScrollLimit = null
+}
+
 /**
  * Smoothly scroll to a CSS selector or element using the active Lenis instance.
  * Falls back to native scrollIntoView if Lenis hasn't been initialised yet.
@@ -41,7 +63,12 @@ export function useLenis() {
     lenis.stop()
 
     // Sync Lenis scroll with GSAP ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update)
+    lenis.on('scroll', (e: any) => {
+      if (_maxScrollLimit !== null && e.scroll > _maxScrollLimit) {
+        lenis.scrollTo(_maxScrollLimit, { immediate: true })
+      }
+      ScrollTrigger.update()
+    })
 
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000)

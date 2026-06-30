@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { heroCopy, siteIdentity } from '../../data/site'
 import { QuoteBridge } from './QuoteBridge'
@@ -18,8 +18,6 @@ export function Hero({ isVisible, onReady }: HeroProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const roleContainerRef = useRef<HTMLDivElement>(null)
   const bridgeRef = useRef<HTMLDivElement>(null)
-
-  const [animationsReady, setAnimationsReady] = useState(false)
 
   // Entry animation sequence
   useEffect(() => {
@@ -41,7 +39,6 @@ export function Hero({ isVisible, onReady }: HeroProps) {
           y: 0,
           scaleX: 1,
         })
-        setAnimationsReady(true)
         onReady?.()
         return
       }
@@ -74,7 +71,6 @@ export function Hero({ isVisible, onReady }: HeroProps) {
       // All key elements visible — unlock scroll NOW before the cosmetic bounce plays.
       // This fires at t≈1.7s instead of t≈3.3s (saves 1.6s of frozen scroll).
       tl.call(() => {
-        setAnimationsReady(true)
         onReady?.()
       }, [], 1.75)
 
@@ -99,8 +95,7 @@ export function Hero({ isVisible, onReady }: HeroProps) {
     nameRef,
     roleContainerRef,
     scrollRef,
-    bridgeRef,
-    animationsReady // Add the tweens only after entry is done (captures correct values)
+    bridgeRef
   )
 
   return (

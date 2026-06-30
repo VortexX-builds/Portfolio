@@ -1,13 +1,13 @@
-import { useState, useCallback, useEffect, lazy, Suspense, useRef } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useLenis } from './hooks/useLenis'
 import { Preloader } from './components/Preloader/Preloader'
 import { Navbar } from './components/Navbar/Navbar'
 import { Hero } from './components/Hero/Hero'
 import { Work } from './components/Work/Work'
 import { About } from './components/About/About'
-import type { GlobalShaderRef } from './components/GlobalShader/GlobalShader'
-
-const GlobalShaderLazy = lazy(() => import('./components/GlobalShader/GlobalShader').then(m => ({ default: m.GlobalShader })))
+import { Contact } from './components/Contact/Contact'
+import { Footer } from './components/Footer/Footer'
+import { CustomCursor } from './components/CustomCursor/CustomCursor'
 
 // Prevent browser from restoring scroll position on reload as early as possible
 if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
@@ -17,16 +17,6 @@ if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
 export default function App() {
   // Initialize Lenis smooth scroll + GSAP ScrollTrigger sync at app root.
   const lenisRef = useLenis()
-  const shaderRef = useRef<GlobalShaderRef>(null)
-
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === 'undefined') return false
-    const match = window.matchMedia('(hover: none) and (pointer: coarse)')
-    return window.innerWidth <= 768 || match.matches || !window.WebGLRenderingContext
-  })
-
-  // Defer shader to prioritize main thread rendering
-  const [shaderEnabled, setShaderEnabled] = useState(false)
 
   // Preloader state
   const [preloaderDone, setPreloaderDone] = useState(() => {
@@ -37,20 +27,6 @@ export default function App() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-
-    const checkMobile = () => {
-      const match = window.matchMedia('(hover: none) and (pointer: coarse)')
-      setIsMobile(window.innerWidth <= 768 || match.matches || !window.WebGLRenderingContext)
-    }
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    
-    const timer = setTimeout(() => setShaderEnabled(true), 100)
-
-    return () => {
-      window.removeEventListener('resize', checkMobile)
-      clearTimeout(timer)
-    }
   }, [])
 
   const handlePreloaderDone = useCallback(() => {
@@ -64,13 +40,9 @@ export default function App() {
   return (
     <>
       {/* Global Background Layer */}
-      {isMobile ? (
-        <div className="global-bg-static" aria-hidden="true" />
-      ) : (
-        <Suspense fallback={<div className="global-bg-static" aria-hidden="true" />}>
-          {shaderEnabled && <GlobalShaderLazy ref={shaderRef} />}
-        </Suspense>
-      )}
+      <div className="global-bg-drift" aria-hidden="true" />
+      <div className="global-bg-grain" aria-hidden="true" />
+      <CustomCursor />
 
       {/* Preloader */}
       {!preloaderDone && (
@@ -88,8 +60,9 @@ export default function App() {
         />
         <Work />
         <About />
-        {/* Build order: Contact next */}
+        <Contact />
       </main>
+      <Footer />
     </>
   )
 }

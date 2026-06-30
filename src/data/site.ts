@@ -4,11 +4,11 @@
  * Components import from here — no hardcoded content in JSX.
  */
 
-import phaseOneVfxImg       from '../assets/works/phase-one-vfx.webp'
-import novaraHospitalImg    from '../assets/works/novara-hospital.webp'
-import stoicVfxImg          from '../assets/works/stoic-vfx.webp'
-import theMonolithGymImg    from '../assets/works/the-monolith-gym.webp'
-import vibrewCoffeeImg      from '../assets/works/vibrew-coffee-shop.webp'
+import phaseOneVfxImg from '../assets/works/phase-one-vfx.webp'
+import novaraHospitalImg from '../assets/works/novara-hospital.webp'
+import stoicVfxImg from '../assets/works/stoic-vfx.webp'
+import theMonolithGymImg from '../assets/works/the-monolith-gym.webp'
+import vibrewCoffeeImg from '../assets/works/vibrew-coffee-shop.webp'
 
 export const siteIdentity = {
   realName: 'Sloak Gohil',
@@ -20,8 +20,8 @@ export const siteIdentity = {
 }
 
 export const navLinks = [
-  { label: 'Work',    href: '#work'    },
-  { label: 'About',   href: '#about'   },
+  { label: 'Work', href: '#work' },
+  { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ] as const
 
@@ -92,7 +92,7 @@ export const aboutContent = {
       type: 'correction' as const,
       before: 'I build ',
       struck: 'pretty websites',
-      replacement: " websites that don't look like websites.",
+      replacement: " websites that are in your brain and turn them into reality.",
       after: '',
     },
     {
@@ -103,7 +103,7 @@ export const aboutContent = {
       type: 'correction' as const,
       before: 'If you can feel the difference, ',
       struck: "let's work together",
-      replacement: ' you already know what I do.',
+      replacement: ' you already know where to find me.',
       after: '',
     },
   ],
@@ -115,9 +115,23 @@ export const heroCopy = {
   scrollLabel: 'scroll',
 } as const
 
+export const contactContent = {
+  cta: "Let's build something the internet hasn't seen yet.",
+  // TODO: Replace with real email before deployment
+  email: 'hello@sloakgohil.com',
+  // TODO: Replace with real phone number before deployment
+  phone: '+91 00000 00000',
+  emailLabel: 'EMAIL',
+  phoneLabel: 'PHONE',
+} as const
+
+export const footerContent = {
+  credit: 'Sloak Gohil 2025',
+} as const
+
 export const preloaderSentence = {
   before: 'The web',
-  wordA:  'deserves',
-  wordB:  'demands',
-  after:  'better.',
+  wordA: 'deserves',
+  wordB: 'demands',
+  after: 'better.',
 } as const

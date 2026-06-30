@@ -33,6 +33,7 @@ export function Work() {
   const bgTextRef = useRef<HTMLDivElement>(null)
 
   const [activeIndex, setActiveIndex] = useState(0)
+  const [displayText, setDisplayText] = useState(() => projects[0]?.title || '')
   const [isTransitioning, setIsTransitioning] = useState(false)
   // Use a ref — NOT state — so the guard flip never triggers a re-render
   // that would cause ctx.revert() to kill the in-progress entry timeline.
@@ -88,12 +89,20 @@ export function Work() {
     }
     const el = bgTextRef.current
     if (!el) return
+
+    const nextTitle = projects[activeIndex]?.title || ''
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced) return
+    if (prefersReduced) {
+      setDisplayText(nextTitle)
+      return
+    }
 
     gsap.timeline()
-      .to(el, { opacity: 0, duration: 0.15, ease: 'power2.in' })
-      .to(el, { opacity: 1, duration: 0.4, ease: 'power2.out' })
+      .to(el, { opacity: 0, duration: 0.2, ease: 'power2.in' })
+      .call(() => {
+        setDisplayText(nextTitle)
+      })
+      .to(el, { opacity: 1, duration: 0.45, ease: 'power2.out' })
   }, [activeIndex])
 
   // ─── Phase 1: Cinematic scroll-entry animation ────────────────────────────
@@ -403,7 +412,7 @@ export function Work() {
 
       {/* Massive Background Typography */}
       <div ref={bgTextRef} className="work__bg-text" aria-hidden="true">
-        {projects[activeIndex].title}
+        {displayText}
       </div>
 
       {/* Carousel wrapper — arrows sit inside this for vertical centering */}

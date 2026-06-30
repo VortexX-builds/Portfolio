@@ -25,7 +25,7 @@
 | Tailwind CSS v4 | Utility classes via `@tailwindcss/vite` plugin |
 | GSAP + ScrollTrigger | All animations |
 | Lenis | Smooth scroll (synced with GSAP) |
-| Three.js | Reserved, used sparingly |
+| Lenis | Smooth scroll (synced with GSAP) |
 
 ---
 
@@ -47,11 +47,11 @@
 ### Typography
 
 - **Primary Font:** Inter (400, 500, 600, 700, 900)
-- **About Section Font:** Boska (variable weight 200-700, about section only)
+- **About Section Font:** Boska (variable weight 200-700, about and contact CTA only)
   - Self-hosted: `public/fonts/Boska-Variable.woff2`
   - CSS token: `--font-boska`
   - TS token: `fontFamily.boska`
-  - Scoped exclusively to the about section. Not used anywhere else.
+  - Scoped to about and contact sections. Not used anywhere else.
 - **Scale:** Defined as CSS custom properties in `src/index.css`
   - `--text-hero`: clamp(3.5rem, 9vw, 9rem)
   - `--text-display`: clamp(2.5rem, 6vw, 6rem)
@@ -84,7 +84,7 @@
 2. **No generic portfolio cliches.** No "passionate", no "creative solutions", no skill bars, no timeline resumes.
 3. **No pure black (`#000000`) or pure white (`#ffffff`).** Anywhere.
 4. **Accent color** (`#34D399`) used maximum 3-4 times across the entire site.
-5. **Three.js** scenes: one max, lightweight, disposed properly, cut if it stutters.
+5. **No Three.js / WebGL.** The site must remain lightweight, using pure CSS and GSAP for motion.
 6. **Performance:** 90+ Lighthouse desktop, 80+ mobile. No negotiation.
 7. **No magic numbers** in components. Import from `src/tokens.ts` or use CSS custom properties.
 8. **No content hardcoded** in JSX. All copy and data from `src/data/site.ts`.
@@ -111,7 +111,7 @@ Wherever "Sloak Gohil" appears (navbar, hero, about), hovering triggers a smooth
 | 4 | Quote Bridge | COMPLETE | Scroll-scrubbed transition (+250vh pin), word-by-word assembly |
 | 5 | Work | PENDING | 5 projects, full-width sequential scroll, no grid |
 | 6 | About | COMPLETE | Single-column Boska serif, strikethrough correction mechanic, scroll-triggered once, sage rule |
-| 7 | Contact | PENDING | No form, direct email, confident closing copy |
+| 7 | Contact | COMPLETE | Email + phone, clipboard copy, Boska CTA, footer |
 
 **Build order is fixed.** Do not start next section until current one is approved.
 
@@ -192,8 +192,6 @@ Portfolio/
   "gsap": "^3.15.0",
   "@gsap/react": "^2.1.2",
   "lenis": "^1.3.23",
-  "three": "^0.184.0",
-  "@types/three": "^0.184.1",
   "tailwindcss": "^4.3.0",
   "@tailwindcss/vite": "^4.3.0",
   "react": "^19.x",
@@ -213,8 +211,15 @@ Portfolio/
 **Navbar:** COMPLETE  
 **Hero & Quote Bridge:** COMPLETE  
 **About:** COMPLETE (rebuilt with Boska serif, strikethrough correction mechanic)  
+**Contact & Footer:** COMPLETE  
+**V1 Status:** FEATURE COMPLETE — all sections built  
+
+> **Before deployment:**  
+> - Replace `email` placeholder in `src/data/site.ts` (TODO comment in file)  
+> - Replace `phone` placeholder in `src/data/site.ts` (TODO comment in file)  
+
 **Current section in progress:** None  
-**Next section to build:** Contact (awaiting approval to proceed)
+**Next section to build:** Deployment prep / real content
 
 ---
 
@@ -229,6 +234,6 @@ Portfolio/
 | `src/data/site.ts` for all content | Copy never hardcoded in JSX, single place to update |
 | Manual chunk splitting (react/gsap/three) | Prevents one large bundle, improves LCP |
 | Quote Bridge inside Hero pin | Extends the hero pin by 150vh (`+=250%`) to keep the shader running beneath the quote assembly |
-| Global WebGL Shader | Moved shader to fixed global background, relying on Page Visibility API to pause instead of IntersectionObserver |
+| Global Background | Removed Three.js WebGL shader. Replaced with pure CSS hardware-accelerated animated gradient mesh and static grain texture. Eliminates 500kb bundle size and all JS animation loops. |
 | Boska variable serif for About | Scoped to about section only. Self-hosted woff2 at `public/fonts/Boska-Variable.woff2`. Preloaded. Does not affect any other section. |
 | Strikethrough correction mechanic | Inline `display: inline` DOM structure. Struck text + strikethrough line + replacement text all flow in the same sentence. Natural line wrapping at all viewports. GSAP timeline plays once via `toggleActions: 'play none none none'` at `start: 'top 70%'`. |

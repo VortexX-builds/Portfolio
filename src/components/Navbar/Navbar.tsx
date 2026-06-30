@@ -41,6 +41,7 @@ export function Navbar({ isVisible }: NavbarProps) {
   const hasEntered   = useRef(false)
 
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState<string>('')
 
   // ── Entrance animation ──────────────────────────────────────────────────────
   useEffect(() => {
@@ -148,6 +149,23 @@ export function Navbar({ isVisible }: NavbarProps) {
     }
   }, [])
 
+  // ── Active section tracking ───────────────────────────────────────────────
+  useEffect(() => {
+    const sections = ['#work', '#about', '#contact']
+    const triggers = sections.map(id =>
+      ScrollTrigger.create({
+        trigger: id,
+        start: 'top 55%',
+        end: 'bottom 45%',
+        onEnter: () => setActiveSection(id),
+        onEnterBack: () => setActiveSection(id),
+        onLeave: () => setActiveSection(prev => prev === id ? '' : prev),
+        onLeaveBack: () => setActiveSection(prev => prev === id ? '' : prev),
+      })
+    )
+    return () => triggers.forEach(t => t.kill())
+  }, [])
+
   // ── Keyboard: Escape closes mobile menu ────────────────────────────────────
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -197,7 +215,7 @@ export function Navbar({ isVisible }: NavbarProps) {
                   key={link.href}
                   href={link.href}
                   ref={el => { if (el) linksRef.current[i] = el }}
-                  className="navbar__link"
+                  className={`navbar__link${activeSection === link.href ? ' navbar__link--active' : ''}`}
                   onClick={(e) => handleNavClick(e, link.href)}
                 >
                   {link.label}

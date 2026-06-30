@@ -49,7 +49,7 @@
   line-height: 1.1;
   letter-spacing: -0.03em;
   color: var(--color-text-primary);
-  text-shadow: 0 0 5.7px rgb(75, 235, 150), 0 0 24px rgba(108, 65, 224, 0.3);
+  text-shadow: 0 0 5.7px rgb(128 231 200 / 64%), 0 0 24px rgba(123, 227, 111, 0.3);
   margin: 0;
   transform-origin: left center;
   padding-bottom: 0.5rem;

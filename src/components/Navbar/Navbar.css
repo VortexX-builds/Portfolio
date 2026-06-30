@@ -208,6 +208,10 @@
   color: var(--color-text-primary);
 }
 
+.navbar__link--active {
+  color: var(--color-text-primary);
+}
+
 /* ── Mobile MENU button ───────────────────────────────────────────────────── */
 
 .navbar__menu-btn {
