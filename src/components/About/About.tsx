@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { aboutContent } from '../../data/site'
-import { getLenis, restrictScrollDown, releaseScrollDown } from '../../hooks/useLenis'
+
 import './About.css'
 
 const CHAR_MS = 0.020 // 20ms per character
@@ -163,21 +163,6 @@ export function About() {
           trigger: section,
           start: 'top 70%',
           toggleActions: 'play none none none',
-          onEnter: () => {
-            const lenis = getLenis()
-            if (lenis) {
-              lenis.scrollTo(section, {
-                duration: 1.0,
-                lock: true,
-                onComplete: () => {
-                  restrictScrollDown(lenis.scroll)
-                }
-              })
-            }
-          }
-        },
-        onComplete: () => {
-          releaseScrollDown()
         }
       })
 
@@ -262,7 +247,6 @@ export function About() {
 
     return () => {
       ctx.revert()
-      releaseScrollDown()
     }
   }, [])
 

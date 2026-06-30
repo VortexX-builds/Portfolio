@@ -41,6 +41,7 @@ export default function App() {
     <>
       {/* Global Background Layer */}
       <div className="global-bg-drift" aria-hidden="true" />
+      <div className="global-bg-lines" aria-hidden="true" />
       <div className="global-bg-grain" aria-hidden="true" />
       <CustomCursor />
 

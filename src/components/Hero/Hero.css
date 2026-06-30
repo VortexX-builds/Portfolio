@@ -6,9 +6,8 @@
   overflow: hidden;
 }
 
-/* ─── Shader & Background ─────────────────────────────────────────────────── */
-
-/* Removed .hero__canvas and .hero__bg-static in favor of global shader */
+/* ─── Background ──────────────────────────────────────────────────────────── */
+/* Local green gradient removed. Global bg layers (drift + lines + grain) now show through. */
 
 /* ─── Content ──────────────────────────────────────────────────────────────── */
 

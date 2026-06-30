@@ -48,11 +48,13 @@ export function useLenis() {
   const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 2,
     })
+    lenis.scrollTo(0, { immediate: true })
 
     lenisRef.current = lenis
     _lenis = lenis
