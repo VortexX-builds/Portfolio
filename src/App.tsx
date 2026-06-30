@@ -10,8 +10,13 @@ import { Footer } from './components/Footer/Footer'
 import { CustomCursor } from './components/CustomCursor/CustomCursor'
 
 // Prevent browser from restoring scroll position on reload as early as possible
-if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
-  history.scrollRestoration = 'manual'
+if (typeof window !== 'undefined') {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual'
+  }
+  window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+  }
 }
 
 export default function App() {

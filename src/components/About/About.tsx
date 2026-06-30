@@ -4,249 +4,162 @@ import { aboutContent } from '../../data/site'
 
 import './About.css'
 
-const CHAR_MS = 0.020 // 20ms per character
+/**
+ * About section — Mask-Reveal "Text Curtain" effect.
+ *
+ * All text is in the DOM at full opacity but hidden behind a CSS gradient mask.
+ * As the user scrolls, GSAP drives the mask downward, revealing text line-by-line
+ * like a curtain being drawn. A luminous scan-line sits at the reveal edge.
+ *
+ * Correction paragraphs: struck text is revealed by the mask, then a strikethrough
+ * draws across it and it dims, then the replacement text fades in.
+ */
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null)
   const copyRef = useRef<HTMLDivElement>(null)
-  const cursorRef = useRef<HTMLSpanElement>(null)
   const labelRef = useRef<HTMLSpanElement>(null)
   const ruleRef = useRef<HTMLDivElement>(null)
 
-  // Plain paragraph text refs (P0 = greeting, P2 = tech paragraph)
-  const p0Ref = useRef<HTMLSpanElement>(null)
-  const p2Ref = useRef<HTMLSpanElement>(null)
-
-  // Correction paragraph refs (P1, P3)
-  const p1BeforeRef = useRef<HTMLSpanElement>(null)
   const p1StruckTextRef = useRef<HTMLSpanElement>(null)
   const p1StruckLineRef = useRef<HTMLSpanElement>(null)
   const p1ReplRef = useRef<HTMLSpanElement>(null)
-  const p3BeforeRef = useRef<HTMLSpanElement>(null)
   const p3StruckTextRef = useRef<HTMLSpanElement>(null)
   const p3StruckLineRef = useRef<HTMLSpanElement>(null)
   const p3ReplRef = useRef<HTMLSpanElement>(null)
 
+  /* Extract content from centralized data */
+  const paras = aboutContent.paragraphs
+  const p0Text = paras[0].text as string
+  const p1 = paras[1] as unknown as { before: string; struck: string; replacement: string }
+  const p2Text = paras[2].text as string
+  const p3 = paras[3] as unknown as { before: string; struck: string; replacement: string }
+
   useEffect(() => {
     const section = sectionRef.current
     const copy = copyRef.current
-    const cursor = cursorRef.current
     const label = labelRef.current
     const rule = ruleRef.current
-    const p0 = p0Ref.current
-    const p2 = p2Ref.current
-    const p1Before = p1BeforeRef.current
     const p1StruckText = p1StruckTextRef.current
     const p1StruckLine = p1StruckLineRef.current
     const p1Repl = p1ReplRef.current
-    const p3Before = p3BeforeRef.current
     const p3StruckText = p3StruckTextRef.current
     const p3StruckLine = p3StruckLineRef.current
     const p3Repl = p3ReplRef.current
 
-    if (!section || !copy || !cursor || !label || !rule ||
-        !p0 || !p2 ||
-        !p1Before || !p1StruckText || !p1StruckLine || !p1Repl ||
-        !p3Before || !p3StruckText || !p3StruckLine || !p3Repl) return
-
-    const paras = aboutContent.paragraphs
-    const p0Text = paras[0].text as string
-    const p1Data = paras[1] as { before: string; struck: string; replacement: string }
-    const p2Text = paras[2].text as string
-    const p3Data = paras[3] as { before: string; struck: string; replacement: string }
+    if (!section || !copy || !label || !rule ||
+        !p1StruckText || !p1StruckLine || !p1Repl ||
+        !p3StruckText || !p3StruckLine || !p3Repl) return
 
     const prefersReduced = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches
 
-    // ── Reduced motion: final state immediately ──
+    /* ── Reduced motion: show final state immediately ──────────────── */
     if (prefersReduced) {
       gsap.set(label, { opacity: 1 })
-      gsap.set(cursor, { opacity: 0 })
-      p0.textContent = p0Text
-      p1Before.textContent = p1Data.before
-      p1StruckText.textContent = p1Data.struck
-      p1Repl.textContent = p1Data.replacement
-      p2.textContent = p2Text
-      p3Before.textContent = p3Data.before
-      p3StruckText.textContent = p3Data.struck
-      p3Repl.textContent = p3Data.replacement
-      gsap.set([p1StruckText, p3StruckText], { opacity: 0.4 })
+      copy.style.maskImage = 'none'
+      copy.style.webkitMaskImage = 'none'
+      gsap.set([p1StruckText, p3StruckText], { opacity: 0.35 })
       gsap.set([p1StruckLine, p3StruckLine], { scaleX: 1 })
+      gsap.set([p1Repl, p3Repl], { opacity: 1 })
       gsap.set(rule, { scaleX: 1 })
       return
     }
 
-    // ── Cursor helpers ──
-    const setCursorTyping = (typing: boolean) => {
-      cursor.classList.toggle('about__cursor--typing', typing)
+    /* ── Measurements ──────────────────────────────────────────────── */
+    const copyHeight = copy.offsetHeight
+    const EDGE = 55 // px — soft mask edge width (fog effect)
+
+    // Where each correction paragraph sits (as 0–1 fraction of copy height)
+    const p1Para = p1StruckText.closest('.about__paragraph') as HTMLElement | null
+    const p3Para = p3StruckText.closest('.about__paragraph') as HTMLElement | null
+    const p1Frac = p1Para ? (p1Para.offsetTop + p1Para.offsetHeight) / copyHeight : 0.35
+    const p3Frac = p3Para ? (p3Para.offsetTop + p3Para.offsetHeight) / copyHeight : 0.85
+
+    /* ── Mask helper ───────────────────────────────────────────────── */
+    const applyMask = (pos: number) => {
+      const v = `linear-gradient(to bottom, black 0px, black ${pos}px, transparent ${pos + EDGE}px)`
+      copy.style.maskImage = v
+      copy.style.webkitMaskImage = v
     }
 
-    const setCursorSize = (isGreeting: boolean) => {
-      cursor.classList.toggle('about__cursor--greeting', isGreeting)
-    }
-
-    const moveCursor = (targetSpan: HTMLElement) => {
-      const copyRect = copy.getBoundingClientRect()
-
-      // Try precise position via Range if span has text
-      if (targetSpan.firstChild && targetSpan.firstChild.textContent) {
-        const len = targetSpan.firstChild.textContent.length
-        if (len > 0) {
-          const range = document.createRange()
-          range.setStart(targetSpan.firstChild, len)
-          range.setEnd(targetSpan.firstChild, len)
-          const rects = range.getClientRects()
-          if (rects.length > 0) {
-            const r = rects[0]
-            cursor.style.left = `${r.left - copyRect.left}px`
-            cursor.style.top = `${r.top - copyRect.top}px`
-            return
-          }
-        }
-      }
-
-      // Fallback: paragraph start position
-      const paraEl = targetSpan.closest('.about__paragraph')
-      if (paraEl) {
-        const pr = paraEl.getBoundingClientRect()
-        cursor.style.left = `${pr.left - copyRect.left}px`
-        cursor.style.top = `${pr.top - copyRect.top}px`
-      }
-    }
-
-    // ── Build a typing tween for one text segment ──
-    const addTyping = (
-      tl: gsap.core.Timeline,
-      span: HTMLElement,
-      text: string,
-      pos: number,
-      isGreeting = false
-    ): number => {
-      const dur = text.length * CHAR_MS
-      const proxy = { i: 0 }
-      tl.to(proxy, {
-        i: text.length,
-        duration: dur,
-        ease: 'none',
-        roundProps: 'i',
-        onStart: () => {
-          setCursorTyping(true)
-          setCursorSize(isGreeting)
-        },
-        onUpdate: () => {
-          span.textContent = text.slice(0, proxy.i)
-          moveCursor(span)
-        },
-        onComplete: () => setCursorTyping(false),
-      }, pos)
-      return pos + dur
-    }
+    /* ── Initial states ────────────────────────────────────────────── */
+    gsap.set(label, { opacity: 0, y: 12 })
+    gsap.set([p1StruckLine, p3StruckLine], { scaleX: 0 })
+    gsap.set([p1Repl, p3Repl], { opacity: 0 })
+    gsap.set(rule, { scaleX: 0 })
+    applyMask(0)
 
     const ctx = gsap.context(() => {
-      // ── Initial states ──
-      gsap.set(label, { opacity: 0 })
-      gsap.set(cursor, { opacity: 1 })
-      gsap.set([p1StruckLine, p3StruckLine], { scaleX: 0 })
-      gsap.set(rule, { scaleX: 0 })
-      p0.textContent = ''
-      p1Before.textContent = ''
-      p1StruckText.textContent = ''
-      p1Repl.textContent = ''
-      p2.textContent = ''
-      p3Before.textContent = ''
-      p3StruckText.textContent = ''
-      p3Repl.textContent = ''
+      const proxy = { pos: 0 }
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: section,
-          start: 'top 70%',
-          toggleActions: 'play none none none',
-        }
+          trigger: copy,
+          start: 'top 95%',
+          end: 'bottom 45%',
+          scrub: 1.5,
+        },
       })
 
-      let t = 0
+      /* 0.00–0.05  Label fade in */
+      tl.to(label, { opacity: 1, y: 0, duration: 0.05, ease: 'power2.out' }, 0)
 
-      // ── Label fade in ──
-      tl.to(label, { opacity: 1, duration: 0.4, ease: 'power2.out' }, t)
-      // Position cursor at P0 start before typing begins
-      tl.call(() => {
-        setCursorSize(true)
-        moveCursor(p0)
-      }, [], t + 0.35)
-      t += 0.4
+      /* 0.04–0.88  Main curtain reveal — mask sweeps top→bottom */
+      tl.to(proxy, {
+        pos: copyHeight + EDGE + 20,
+        duration: 0.84,
+        ease: 'none',
+        onUpdate: () => {
+          applyMask(proxy.pos)
+        },
+      }, 0.04)
 
-      // ── P1: greeting ──
-      t = addTyping(tl, p0, p0Text, t, true)
-      t += 0.4 // inter-paragraph pause (cursor blinks)
-
-      // ── P2: correction ──
-      tl.call(() => { setCursorSize(false); moveCursor(p1Before) }, [], t - 0.01)
-      t = addTyping(tl, p1Before, p1Data.before, t)
-      t = addTyping(tl, p1StruckText, p1Data.struck, t)
-      t += 0.3 // pause before correction
-
-      // Strikethrough draw
+      /* Correction beat 1 — fires after mask passes P1 */
+      const p1Beat = 0.04 + p1Frac * 0.84 + 0.03
       tl.fromTo(p1StruckLine,
         { scaleX: 0 },
-        { scaleX: 1, duration: 0.35, ease: 'power2.inOut' },
-        t)
-      t += 0.35
-
-      // Drop struck text opacity
+        { scaleX: 1, duration: 0.04, ease: 'power2.inOut' },
+        p1Beat
+      )
       tl.to(p1StruckText,
-        { opacity: 0.4, duration: 0.15, ease: 'power2.out' }, t)
-      t += 0.15
+        { opacity: 0.35, duration: 0.03, ease: 'power2.out' },
+        p1Beat + 0.02
+      )
+      tl.to(p1Repl,
+        { opacity: 1, duration: 0.04, ease: 'power2.out' },
+        p1Beat + 0.04
+      )
 
-      // Type replacement
-      t = addTyping(tl, p1Repl, p1Data.replacement, t)
-      t += 0.4 // inter-paragraph pause
-
-      // ── P3: plain ──
-      tl.call(() => moveCursor(p2), [], t - 0.01)
-      t = addTyping(tl, p2, p2Text, t)
-      t += 0.4 // inter-paragraph pause
-
-      // ── P4: correction ──
-      tl.call(() => moveCursor(p3Before), [], t - 0.01)
-      t = addTyping(tl, p3Before, p3Data.before, t)
-      t = addTyping(tl, p3StruckText, p3Data.struck, t)
-      t += 0.3 // pause before correction
-
-      // Strikethrough draw
+      /* Correction beat 2 — fires after mask passes P3 */
+      const p3Beat = Math.min(0.04 + p3Frac * 0.84 + 0.03, 0.90)
       tl.fromTo(p3StruckLine,
         { scaleX: 0 },
-        { scaleX: 1, duration: 0.35, ease: 'power2.inOut' },
-        t)
-      t += 0.35
-
-      // Drop struck text opacity
+        { scaleX: 1, duration: 0.04, ease: 'power2.inOut' },
+        p3Beat
+      )
       tl.to(p3StruckText,
-        { opacity: 0.4, duration: 0.15, ease: 'power2.out' }, t)
-      t += 0.15
+        { opacity: 0.35, duration: 0.03, ease: 'power2.out' },
+        p3Beat + 0.02
+      )
+      tl.to(p3Repl,
+        { opacity: 1, duration: 0.04, ease: 'power2.out' },
+        Math.min(p3Beat + 0.04, 0.96)
+      )
 
-      // Type replacement
-      t = addTyping(tl, p3Repl, p3Data.replacement, t)
-
-      // ── Ending sequence ──
-      t += 0.5 // cursor blinks
-
-      // Cursor fades out
-      tl.to(cursor, { opacity: 0, duration: 0.3, ease: 'power2.out' }, t)
-      t += 0.3
-
-      // Sage rule draws in
+      /* 0.92–1.00  Sage rule draws in */
       tl.fromTo(rule,
         { scaleX: 0 },
-        { scaleX: 1, duration: 0.5, ease: 'power3.out' },
-        t)
-
-      // Screen pinning removed so lower section triggers load independently and height remains stable
+        { scaleX: 1, duration: 0.08, ease: 'power3.out' },
+        0.92
+      )
     }, section)
 
     return () => {
       ctx.revert()
+      copy.style.maskImage = ''
+      copy.style.webkitMaskImage = ''
     }
   }, [])
 
@@ -260,60 +173,53 @@ export function About() {
 
         {/* Paragraph 1: Greeting */}
         <div className="about__paragraph about__paragraph--greeting">
-          <span className="about__line" ref={p0Ref} data-about-line />
+          <span className="about__line">{p0Text}</span>
         </div>
 
         {/* Paragraph 2: Correction */}
         <div className="about__paragraph about__paragraph--body">
-          <span className="about__line" data-about-line>
-            <span ref={p1BeforeRef} />
+          <span className="about__line">
+            {p1.before}
             <span className="about__struck-group">
-              <span
-                className="about__struck-text"
-                ref={p1StruckTextRef}
-                data-struck-text
-              />
+              <span className="about__struck-text" ref={p1StruckTextRef}>
+                {p1.struck}
+              </span>
               <span
                 className="about__struck-line"
                 ref={p1StruckLineRef}
-                data-struck-line
                 aria-hidden="true"
               />
             </span>
-            <span ref={p1ReplRef} />
+            <span className="about__repl" ref={p1ReplRef}>
+              {p1.replacement}
+            </span>
           </span>
         </div>
 
         {/* Paragraph 3: Plain */}
         <div className="about__paragraph about__paragraph--body">
-          <span className="about__line" ref={p2Ref} data-about-line />
+          <span className="about__line">{p2Text}</span>
         </div>
 
         {/* Paragraph 4: Correction */}
         <div className="about__paragraph about__paragraph--body">
-          <span className="about__line" data-about-line>
-            <span ref={p3BeforeRef} />
+          <span className="about__line">
+            {p3.before}
             <span className="about__struck-group">
-              <span
-                className="about__struck-text"
-                ref={p3StruckTextRef}
-                data-struck-text
-              />
+              <span className="about__struck-text" ref={p3StruckTextRef}>
+                {p3.struck}
+              </span>
               <span
                 className="about__struck-line"
                 ref={p3StruckLineRef}
-                data-struck-line
                 aria-hidden="true"
               />
             </span>
-            <span ref={p3ReplRef} />
+            <span className="about__repl" ref={p3ReplRef}>
+              {p3.replacement}
+            </span>
           </span>
         </div>
-
-        {/* Typewriter cursor */}
-        <span className="about__cursor" ref={cursorRef} aria-hidden="true">
-          |
-        </span>
 
         {/* Sage rule */}
         <div

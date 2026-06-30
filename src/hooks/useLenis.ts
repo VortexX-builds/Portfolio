@@ -5,6 +5,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 // Register GSAP plugins globally — done once here, available everywhere
 gsap.registerPlugin(ScrollTrigger)
+if (typeof window !== 'undefined' && typeof ScrollTrigger.clearScrollMemory === 'function') {
+  ScrollTrigger.clearScrollMemory("manual");
+}
 
 /** Module-level singleton — accessible without prop-drilling */
 let _lenis: Lenis | null = null

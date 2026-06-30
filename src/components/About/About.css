@@ -2,14 +2,16 @@
 
 .about {
   position: relative;
-  padding-top: 15vh;
-  padding-bottom: 15vh;
+  padding-top: 10vh;
+  padding-bottom: 10vh;
 
   /* Scoped color tokens */
   --about-sage: #A8D5B5;
+  --about-sage-glow: rgba(168, 213, 181, 0.15);
+  --about-sage-glow-strong: rgba(168, 213, 181, 0.3);
 }
 
-/* ─── Section label — matches work__label treatment ───────────────────────── */
+/* ─── Section label ───────────────────────────────────────────────────────── */
 
 .about__label {
   display: block;
@@ -20,7 +22,7 @@
   text-transform: uppercase;
   color: #4A7C6F;
   margin-bottom: 2rem;
-  opacity: 0; /* GSAP fades in */
+  opacity: 0; /* GSAP controls */
 }
 
 /* ─── Centered single column ──────────────────────────────────────────────── */
@@ -29,13 +31,15 @@
   position: relative;
   max-width: 62vw;
   margin-inline: auto;
+  /* Mask applied via JS — initial state hides all text */
+  -webkit-mask-image: linear-gradient(to bottom, black 0px, black 0px, transparent 50px);
+          mask-image: linear-gradient(to bottom, black 0px, black 0px, transparent 50px);
 }
 
 /* ─── Paragraph spacing ───────────────────────────────────────────────────── */
 
 .about__paragraph {
   margin-bottom: 1.5rem;
-  min-height: 1.8em; /* Prevent collapse when text is empty during typewriter */
 }
 
 .about__paragraph:last-of-type {
@@ -44,7 +48,6 @@
 
 .about__paragraph--greeting {
   margin-bottom: 2rem;
-  min-height: 1.4em;
 }
 
 /* ─── Paragraph line container ────────────────────────────────────────────── */
@@ -74,7 +77,7 @@
   line-height: 1.8;
 }
 
-/* ─── Struck word group — inline, positioned for the line overlay ─────────── */
+/* ─── Struck word group ───────────────────────────────────────────────────── */
 
 .about__struck-group {
   position: relative;
@@ -99,36 +102,14 @@
   pointer-events: none;
 }
 
-/* ─── Typewriter cursor ───────────────────────────────────────────────────── */
+/* ─── Replacement text (hidden until correction beat) ─────────────────────── */
 
-.about__cursor {
-  position: absolute;
-  color: var(--about-sage);
-  font-family: var(--font-boska);
-  font-weight: 400;
-  pointer-events: none;
-  user-select: none;
-  z-index: 5;
-  animation: aboutCursorBlink 1.06s step-end infinite;
-  /* Match body text size by default; greeting overrides via JS */
-  font-size: clamp(1rem, 1.3vw, 1.25rem);
-  line-height: 1.8;
+.about__repl {
+  display: inline;
+  opacity: 0;
 }
 
-.about__cursor--typing {
-  animation: none;
-  opacity: 1;
-}
 
-.about__cursor--greeting {
-  font-size: clamp(2.2rem, 3.5vw, 3rem);
-  line-height: 1.4;
-}
-
-@keyframes aboutCursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
 
 /* ─── Sage rule ────────────────────────────────────────────────────────────── */
 
@@ -153,8 +134,8 @@
 
 @media (max-width: 768px) {
   .about {
-    padding-top: max(12vh, 5rem);
-    padding-bottom: max(12vh, 5rem);
+    min-height: auto;
+    padding-block: max(12vh, 5rem);
   }
 
   .about__copy {
@@ -170,6 +151,11 @@
     opacity: 1 !important;
   }
 
+  .about__copy {
+    -webkit-mask-image: none !important;
+            mask-image: none !important;
+  }
+
   .about__struck-line {
     transform: scaleX(1) !important;
   }
@@ -178,11 +164,13 @@
     opacity: 0.4 !important;
   }
 
+  .about__repl {
+    opacity: 1 !important;
+  }
+
   .about__sage-rule {
     transform: scaleX(1) !important;
   }
 
-  .about__cursor {
-    display: none !important;
-  }
+
 }
