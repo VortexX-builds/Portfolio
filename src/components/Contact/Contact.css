@@ -3,7 +3,7 @@
 .contact {
   position: relative;
   padding-top: 8vh;
-  padding-bottom: 20vh;
+  padding-bottom: 10vh;
 
   /* Sage color token — scoped, same value as about section */
   --contact-sage: #A8D5B5;
@@ -168,7 +168,7 @@
 @media (max-width: 768px) {
   .contact {
     padding-top: max(10vh, 4rem);
-    padding-bottom: max(10vh, 4rem);
+    padding-bottom: max(5vh, 2rem);
   }
 
   .contact__column {

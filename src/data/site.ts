@@ -75,12 +75,6 @@ export const projects = [
   },
 ]
 
-/**
- * About section content with strikethrough correction mechanic.
- * Each paragraph is typed as 'plain' or 'correction'.
- * Correction paragraphs carry the struck/replacement word pairs.
- * Exact copy. Do not alter.
- */
 export const aboutContent = {
   paragraphs: [
     {
@@ -89,22 +83,16 @@ export const aboutContent = {
       isGreeting: true,
     },
     {
-      type: 'correction' as const,
-      before: 'I build ',
-      struck: 'pretty websites',
-      replacement: " websites that are in your brain and turn them into reality.",
-      after: '',
+      type: 'plain' as const,
+      text: "I build websites that are in your brain and turn them into *reality.*",
     },
     {
       type: 'plain' as const,
-      text: 'React, Three.js, GSAP, TypeScript. The technical side is handled. What actually matters is that every project I touch feels premium, intentional, and nothing like the generic slop flooding the internet.',
+      text: "React, Three.js, GSAP, TypeScript. The technical side is handled. What actually matters is that every project I touch feels *premium,* *intentional,* and nothing like the generic *slop* flooding the internet.",
     },
     {
-      type: 'correction' as const,
-      before: 'If you can feel the difference, ',
-      struck: "let's work together",
-      replacement: ' you already know where to find me.',
-      after: '',
+      type: 'plain' as const,
+      text: "If you can feel the difference, you already know where to find me.",
     },
   ],
 } as const

@@ -2,13 +2,11 @@
 
 .about {
   position: relative;
-  padding-top: 10vh;
-  padding-bottom: 10vh;
+  padding-top: 15vh;
+  padding-bottom: 15vh;
 
   /* Scoped color tokens */
   --about-sage: #A8D5B5;
-  --about-sage-glow: rgba(168, 213, 181, 0.15);
-  --about-sage-glow-strong: rgba(168, 213, 181, 0.3);
 }
 
 /* ─── Section label ───────────────────────────────────────────────────────── */
@@ -21,7 +19,7 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #4A7C6F;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
   opacity: 0; /* GSAP controls */
 }
 
@@ -29,104 +27,51 @@
 
 .about__copy {
   position: relative;
-  max-width: 62vw;
+  max-width: 75vw;
   margin-inline: auto;
-  /* Mask applied via JS — initial state hides all text */
-  -webkit-mask-image: linear-gradient(to bottom, black 0px, black 0px, transparent 50px);
-          mask-image: linear-gradient(to bottom, black 0px, black 0px, transparent 50px);
 }
 
 /* ─── Paragraph spacing ───────────────────────────────────────────────────── */
 
 .about__paragraph {
-  margin-bottom: 1.5rem;
+  margin-bottom: 4rem;
 }
 
 .about__paragraph:last-of-type {
   margin-bottom: 0;
 }
 
-.about__paragraph--greeting {
-  margin-bottom: 2rem;
-}
-
-/* ─── Paragraph line container ────────────────────────────────────────────── */
+/* ─── Paragraph typography ────────────────────────────────────────────────── */
 
 .about__line {
   display: block;
   font-family: var(--font-boska);
-  line-height: 1.8;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.25;
+  color: #DAF1DE;
+  letter-spacing: -0.02em;
 }
-
-/* ─── Greeting typography ─────────────────────────────────────────────────── */
 
 .about__paragraph--greeting .about__line {
-  font-size: clamp(2.2rem, 3.5vw, 3rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: #DAF1DE;
-  line-height: 1.4;
+  color: var(--about-sage);
 }
 
-/* ─── Body paragraph typography ───────────────────────────────────────────── */
+/* ─── Word-by-word styling ────────────────────────────────────────────────── */
 
-.about__paragraph--body .about__line {
-  font-size: clamp(1rem, 1.3vw, 1.25rem);
-  font-weight: 400;
-  color: #DAF1DE;
-  line-height: 1.8;
+.about__word {
+  opacity: 0.15; /* Dimmed state, animated to 1 via GSAP */
 }
 
-/* ─── Struck word group ───────────────────────────────────────────────────── */
-
-.about__struck-group {
-  position: relative;
-  display: inline;
-}
-
-.about__struck-text {
-  position: relative;
-  z-index: 1;
-}
-
-.about__struck-line {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1.5px;
-  background-color: var(--about-sage);
-  transform: scaleX(0);
-  transform-origin: left center;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* ─── Replacement text (hidden until correction beat) ─────────────────────── */
-
-.about__repl {
-  display: inline;
-  opacity: 0;
-}
-
-
-
-/* ─── Sage rule ────────────────────────────────────────────────────────────── */
-
-.about__sage-rule {
-  width: 45px;
-  height: 1px;
-  background-color: var(--about-sage);
-  transform-origin: left center;
-  transform: scaleX(0);
-  margin-top: 2rem;
+.about__word--highlight {
+  color: var(--about-sage);
 }
 
 /* ─── Responsive — Tablet ──────────────────────────────────────────────────── */
 
 @media (max-width: 1024px) {
   .about__copy {
-    max-width: 78vw;
+    max-width: 85vw;
   }
 }
 
@@ -142,35 +87,26 @@
     max-width: 100%;
     padding-inline: 1.5rem;
   }
+  
+  .about__line {
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+  }
+  
+  .about__paragraph {
+    margin-bottom: 3rem;
+  }
+  
+  .about__label {
+    margin-bottom: 2.5rem;
+  }
 }
 
 /* ─── Reduced Motion ───────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .about__label {
+  .about__label,
+  .about__word {
     opacity: 1 !important;
   }
-
-  .about__copy {
-    -webkit-mask-image: none !important;
-            mask-image: none !important;
-  }
-
-  .about__struck-line {
-    transform: scaleX(1) !important;
-  }
-
-  .about__struck-text {
-    opacity: 0.4 !important;
-  }
-
-  .about__repl {
-    opacity: 1 !important;
-  }
-
-  .about__sage-rule {
-    transform: scaleX(1) !important;
-  }
-
-
 }
+
