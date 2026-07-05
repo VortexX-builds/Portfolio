@@ -6,7 +6,6 @@ import './Contact.css'
 export function Contact() {
   const sectionRef  = useRef<HTMLElement>(null)
   const labelRef    = useRef<HTMLSpanElement>(null)
-  const ruleRef     = useRef<HTMLDivElement>(null)
   const ctaRef      = useRef<HTMLHeadingElement>(null)
   const emailRef    = useRef<HTMLAnchorElement>(null)
   const phoneRef    = useRef<HTMLButtonElement>(null)
@@ -31,25 +30,22 @@ export function Contact() {
   useEffect(() => {
     const section = sectionRef.current
     const label   = labelRef.current
-    const rule    = ruleRef.current
     const cta     = ctaRef.current
     const email   = emailRef.current
     const phone   = phoneRef.current
 
-    if (!section || !label || !rule || !cta || !email || !phone) return
+    if (!section || !label || !cta || !email || !phone) return
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     // ── Reduced motion: show everything instantly ──
     if (prefersReduced) {
       gsap.set([label, cta, email, phone], { opacity: 1, y: 0 })
-      gsap.set(rule, { scaleX: 1 })
       return
     }
 
     // ── Set initial hidden states ──
     gsap.set(label,  { opacity: 0 })
-    gsap.set(rule,   { scaleX: 0 })
     gsap.set(cta,    { opacity: 0, y: 20 })
     gsap.set(email,  { opacity: 0, y: 15 })
     gsap.set(phone,  { opacity: 0, y: 15 })
@@ -69,13 +65,6 @@ export function Contact() {
         duration: 0.4,
         ease: 'power2.out',
       }, 0)
-
-      // t=0.40 — Sage rule draws in (0.5s)
-      tl.to(rule, {
-        scaleX: 1,
-        duration: 0.5,
-        ease: 'power3.out',
-      }, 0.4)
 
       // t=0.90 — CTA fades and drifts up (0.7s)
       tl.to(cta, {
@@ -107,19 +96,12 @@ export function Contact() {
 
   return (
     <section id="contact" className="contact" ref={sectionRef}>
+      {/* Section label — matches WORKS and ABOUT treatment exactly */}
+      <span className="contact__label" ref={labelRef} aria-hidden="true">
+        CONTACT
+      </span>
+
       <div className="contact__column">
-
-        {/* Section label — matches WORKS and ABOUT treatment exactly */}
-        <span className="contact__label" ref={labelRef} aria-hidden="true">
-          CONTACT
-        </span>
-
-        {/* Sage rule — draws in left to right */}
-        <div
-          className="contact__sage-rule"
-          ref={ruleRef}
-          aria-hidden="true"
-        />
 
         {/* CTA line — exact copy, do not change */}
         <h2 className="contact__cta" ref={ctaRef}>

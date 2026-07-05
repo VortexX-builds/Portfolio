@@ -19,12 +19,12 @@
 /* ─── CSS Custom Properties (design tokens mirrored for global use) ────────── */
 :root {
   /* Colors */
-  --color-bg:           #010606;
+  --color-bg: #010606;
   --color-text-primary: #DAF1DE;
-  --color-text-muted:   #8AAFA7;
-  --color-accent:       #34D399;
-  --color-surface:      #0D2B2C;
-  --color-border:       #163830;
+  --color-text-muted: #8AAFA7;
+  --color-accent: #34D399;
+  --color-surface: #0D2B2C;
+  --color-border: #163830;
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -36,21 +36,21 @@
   --font-boska: 'Boska', 'Georgia', serif;
 
   /* Fluid type scale */
-  --text-hero:    clamp(3.5rem, 9vw, 9rem);
+  --text-hero: clamp(3.5rem, 9vw, 9rem);
   --text-display: clamp(2.5rem, 6vw, 6rem);
   --text-heading: clamp(1.75rem, 3vw, 3rem);
-  --text-title:   clamp(1.25rem, 2vw, 1.75rem);
-  --text-body:    1rem;
-  --text-small:   0.875rem;
-  --text-label:   0.75rem;
+  --text-title: clamp(1.25rem, 2vw, 1.75rem);
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-label: 0.75rem;
 
   /* Spacing */
   --space-section: clamp(5rem, 12vh, 10rem);
 
   /* Animation */
-  --duration-fast:    250ms;
+  --duration-fast: 250ms;
   --duration-default: 650ms;
-  --duration-slow:    1400ms;
+  --duration-slow: 1400ms;
   --ease-default: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-dramatic: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -82,7 +82,12 @@ body {
 }
 
 /* ─── Typography base ──────────────────────────────────────────────────────── */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-sans);
   font-weight: 700;
   line-height: 1.1;
@@ -100,7 +105,8 @@ a {
   text-decoration: none;
 }
 
-img, video {
+img,
+video {
   max-width: 100%;
   height: auto;
   display: block;
@@ -126,18 +132,38 @@ button {
 }
 
 /* Text color utilities */
-.text-primary { color: var(--color-text-primary); }
-.text-muted   { color: var(--color-text-muted); }
-.text-accent  { color: var(--color-accent); }
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
 
 /* Font size utilities */
-.text-hero    { font-size: var(--text-hero); }
-.text-display { font-size: var(--text-display); }
-.text-heading { font-size: var(--text-heading); }
-.text-title   { font-size: var(--text-title); }
+.text-hero {
+  font-size: var(--text-hero);
+}
+
+.text-display {
+  font-size: var(--text-display);
+}
+
+.text-heading {
+  font-size: var(--text-heading);
+}
+
+.text-title {
+  font-size: var(--text-title);
+}
 
 /* ─── Reduced motion ───────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -158,13 +184,16 @@ button {
 ::-webkit-scrollbar {
   width: 4px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--color-bg);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: 2px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-muted);
 }
@@ -179,20 +208,29 @@ button {
   position: fixed;
   inset: -50%;
   z-index: -2;
-  background: radial-gradient(circle at 50% 50%, rgba(8, 8, 14, 1) 0%, rgba(2, 2, 4, 1) 40%, var(--color-bg) 75%),
-              radial-gradient(circle at 20% 80%, rgba(12, 18, 22, 0.35) 0%, transparent 40%),
-              radial-gradient(circle at 80% 20%, rgba(20, 24, 30, 0.08) 0%, transparent 45%);
+  background: radial-gradient(circle at 50% 50%, #0d3830 0%, #061e1a 40%, var(--color-bg) 75%),
+    radial-gradient(circle at 20% 80%, rgba(22, 56, 48, 0.7) 0%, transparent 45%),
+    radial-gradient(circle at 80% 20%, rgba(13, 43, 44, 0.5) 0%, transparent 50%);
   background-size: 100% 100%;
   animation: bgDrift 80s linear infinite alternate;
   pointer-events: none;
-  transform: translateZ(0); /* Hardware acceleration */
+  transform: translateZ(0);
+  /* Hardware acceleration */
   will-change: transform;
 }
 
 @keyframes bgDrift {
-  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-  50% { transform: translate3d(-1%, 1%, 0) rotate(180deg) scale(1.05); }
-  100% { transform: translate3d(1%, -1%, 0) rotate(360deg) scale(1); }
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: translate3d(-1%, 1%, 0) rotate(180deg) scale(1.05);
+  }
+
+  100% {
+    transform: translate3d(1%, -1%, 0) rotate(360deg) scale(1);
+  }
 }
 
 .global-bg-lines {
@@ -203,20 +241,16 @@ button {
   /* Two edge-biased diagonal line sweeps — combined via multiple backgrounds */
   /* Left-edge beam: fades from left, moves downward */
   background-image:
-    repeating-linear-gradient(
-      45deg,
+    repeating-linear-gradient(45deg,
       transparent,
       transparent 48px,
       rgba(168, 213, 181, 0.045) 48px,
-      rgba(168, 213, 181, 0.045) 49px
-    ),
-    repeating-linear-gradient(
-      45deg,
+      rgba(168, 213, 181, 0.045) 49px),
+    repeating-linear-gradient(45deg,
       transparent,
       transparent 96px,
       rgba(168, 213, 181, 0.025) 96px,
-      rgba(168, 213, 181, 0.025) 97px
-    );
+      rgba(168, 213, 181, 0.025) 97px);
   background-size: 200px 200px;
   animation: linesSweep 8s linear infinite;
   /* Reduced motion: lines remain visible but static */
@@ -227,18 +261,21 @@ button {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse 55% 100% at 50% 50%,
-    var(--color-bg) 0%,
-    var(--color-bg) 30%,
-    transparent 70%
-  );
+  background: radial-gradient(ellipse 55% 100% at 50% 50%,
+      rgba(1, 6, 6, 0.4) 0%,
+      rgba(1, 6, 6, 0.25) 30%,
+      transparent 70%);
   pointer-events: none;
 }
 
 @keyframes linesSweep {
-  from { background-position: 0 0, 0 0; }
-  to   { background-position: 200px 200px, 200px 200px; }
+  from {
+    background-position: 0 0, 0 0;
+  }
+
+  to {
+    background-position: 200px 200px, 200px 200px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -263,6 +300,7 @@ button {
 
 /* ─── Hide Standard Cursor on Desktop ───────────────────────────────────────── */
 @media (pointer: fine) {
+
   body,
   a,
   button,
@@ -274,3 +312,9 @@ button {
   }
 }
 
+/* %%% Contact/Footer Layout Wrapper %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+.contact-footer-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

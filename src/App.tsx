@@ -66,9 +66,11 @@ export default function App() {
         />
         <Work />
         <About />
-        <Contact />
+        <div className="contact-footer-wrapper">
+          <Contact />
+          <Footer />
+        </div>
       </main>
-      <Footer />
     </>
   )
 }

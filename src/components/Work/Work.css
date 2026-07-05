@@ -7,9 +7,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   overflow: hidden;
-  padding: 5vh 0;
+  padding-top: 15vh;
+  padding-bottom: 10vh;
   /* Perspective for the entire section so all 3D children share one VP */
   perspective: 1600px;
 }

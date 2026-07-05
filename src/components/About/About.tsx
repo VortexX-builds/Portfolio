@@ -59,11 +59,12 @@ export function About() {
 
   return (
     <section id="about" className="about" ref={sectionRef}>
+      {/* Section label */}
+      <span className="about__label" ref={labelRef} data-about-label>
+        ABOUT
+      </span>
+
       <div className="about__copy" ref={copyRef}>
-        {/* Section label */}
-        <span className="about__label" ref={labelRef} data-about-label>
-          ABOUT
-        </span>
 
         {paras.map((p, i) => {
           const isGreeting = 'isGreeting' in p && p.isGreeting

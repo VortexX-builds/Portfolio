@@ -114,7 +114,19 @@ export const contactContent = {
 } as const
 
 export const footerContent = {
-  credit: 'Sloak Gohil 2025',
+  credit: 'Designed & Developed by Sloak Gohil - 2026',
+  legalLinks: [
+    { label: 'Terms & Conditions', href: '#' },
+    { label: 'Privacy Policy', href: '#' },
+  ],
+  socials: [
+    { label: 'LinkedIn', href: '#' },
+    { label: 'GitHub', href: '#' },
+    { label: 'Twitter/X', href: '#' },
+  ],
+  status: '🟢 Available for work',
+  localTimeLabel: 'Local Time (IST)',
+  backToTop: 'Back to Top',
 } as const
 
 export const preloaderSentence = {
