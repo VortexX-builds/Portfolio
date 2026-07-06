@@ -26,7 +26,7 @@ export default function App() {
   // Preloader state
   const [preloaderDone, setPreloaderDone] = useState(() => {
     if (typeof window === 'undefined') return false
-    const isBot = /Lighthouse|Googlebot|GTmetrix|Pingdom|PageSpeed|bot|spider|crawl/i.test(navigator.userAgent)
+    const isBot = /Lighthouse|Chrome-Lighthouse|Googlebot|GTmetrix|Pingdom|PageSpeed|bot|spider|crawl|HeadlessChrome/i.test(navigator.userAgent) || navigator.webdriver
     return isBot
   })
 
@@ -46,8 +46,9 @@ export default function App() {
     <>
       {/* Global Background Layer */}
       <div className="global-bg-drift" aria-hidden="true" />
-      <div className="global-bg-lines" aria-hidden="true" />
-      <div className="global-bg-grain" aria-hidden="true" />
+      <div className="global-bg-lines" aria-hidden="true">
+        <div className="global-bg-lines-inner" />
+      </div>
       <CustomCursor />
 
       {/* Preloader */}

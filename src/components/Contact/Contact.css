@@ -2,9 +2,8 @@
 
 .contact {
   position: relative;
-  flex-grow: 1;
   padding-top: 15vh;
-  padding-bottom: 5vh;
+  padding-bottom: 10vh;
 
   /* Sage color token — scoped, same value as about section */
   --contact-sage: #A8D5B5;

@@ -23,7 +23,7 @@ export function Hero({ isVisible, onReady }: HeroProps) {
   useEffect(() => {
     if (!isVisible) return
 
-    const isBot = /Lighthouse|Googlebot|GTmetrix|Pingdom|PageSpeed|bot|spider|crawl/i.test(navigator.userAgent)
+    const isBot = /Lighthouse|Chrome-Lighthouse|Googlebot|GTmetrix|Pingdom|PageSpeed|bot|spider|crawl|HeadlessChrome/i.test(navigator.userAgent) || navigator.webdriver
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches || isBot
 
     const ctx = gsap.context(() => {

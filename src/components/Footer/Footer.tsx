@@ -46,19 +46,6 @@ export function Footer() {
               ))}
             </ul>
           </div>
-          
-          <div className="site-footer__column">
-            <span className="site-footer__label">Legal</span>
-            <ul className="site-footer__list">
-              {footerContent.legalLinks.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} className="site-footer__link">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
 
           <div className="site-footer__column site-footer__column--desktop-only">
             <span className="site-footer__label">Status</span>

@@ -5,7 +5,9 @@
  */
 
 import phaseOneVfxImg from '../assets/works/phase-one-vfx.webp'
+import swiftcartDeliveryImg from '../assets/works/swiftcart-delivery.webp'
 import novaraHospitalImg from '../assets/works/novara-hospital.webp'
+import glaceLevinImg from '../assets/works/glace-levin.webp'
 import stoicVfxImg from '../assets/works/stoic-vfx.webp'
 import theMonolithGymImg from '../assets/works/the-monolith-gym.webp'
 import vibrewCoffeeImg from '../assets/works/vibrew-coffee-shop.webp'
@@ -16,7 +18,7 @@ export const siteIdentity = {
   /** Abbreviated version used in mobile navbar */
   initials: 'SG',
   role: 'Frontend Developer',
-  email: '', // to be provided
+  email: 'turbosites.io@gmail.com',
 }
 
 export const navLinks = [
@@ -31,15 +33,22 @@ export const projects = [
     index: '01',
     title: 'Phase One VFX',
     type: 'VFX Studio — Frontend',
-    // LIVE: update if URL changes
     link: 'https://phaseonevfx.com' as string | null,
-    // TODO: replace with real screenshot paths when available
     images: [phaseOneVfxImg],
     tags: ['React', 'GSAP', 'Three.js'],
   },
   {
-    id: 'novara-hospital',
+    id: 'swiftcart-delivery',
     index: '02',
+    title: 'SwiftCart Delivery',
+    type: 'Delivery App — Frontend',
+    link: 'https://swiftcart-delivery.vercel.app',
+    images: [swiftcartDeliveryImg],
+    tags: ['React', 'TypeScript', 'Supabase'],
+  },
+  {
+    id: 'novara-hospital',
+    index: '03',
     title: 'Novara Hospital',
     type: 'Healthcare — Frontend',
     link: 'https://novara-two.vercel.app',
@@ -47,8 +56,17 @@ export const projects = [
     tags: ['React', 'TypeScript', 'GSAP'],
   },
   {
+    id: 'glace-levin',
+    index: '04',
+    title: 'Glacé & Levain',
+    type: 'Artisan Bakery — Frontend',
+    link: 'https://glace-levin.vercel.app',
+    images: [glaceLevinImg],
+    tags: ['React', 'TypeScript', 'GSAP'],
+  },
+  {
     id: 'stoic-vfx',
-    index: '03',
+    index: '05',
     title: 'Stoic VFX',
     type: 'VFX Studio — Frontend',
     link: 'https://stoic-vfx.vercel.app',
@@ -57,7 +75,7 @@ export const projects = [
   },
   {
     id: 'the-monolith-gym',
-    index: '04',
+    index: '06',
     title: 'The Monolith Gym',
     type: 'Fitness — Frontend',
     link: 'https://the-monolith.netlify.app',
@@ -66,7 +84,7 @@ export const projects = [
   },
   {
     id: 'vibrew-coffee',
-    index: '05',
+    index: '07',
     title: 'Vibrew Coffee Shop',
     type: 'F&B — Frontend',
     link: 'https://vibrew-web.vercel.app',
@@ -105,24 +123,16 @@ export const heroCopy = {
 
 export const contactContent = {
   cta: "Let's build something the internet hasn't seen yet.",
-  // TODO: Replace with real email before deployment
-  email: 'hello@sloakgohil.com',
-  // TODO: Replace with real phone number before deployment
-  phone: '+91 00000 00000',
+  email: 'turbosites.io@gmail.com',
+  phone: '+91 6356385989',
   emailLabel: 'EMAIL',
   phoneLabel: 'PHONE',
 } as const
 
 export const footerContent = {
   credit: 'Designed & Developed by Sloak Gohil - 2026',
-  legalLinks: [
-    { label: 'Terms & Conditions', href: '#' },
-    { label: 'Privacy Policy', href: '#' },
-  ],
   socials: [
-    { label: 'LinkedIn', href: '#' },
-    { label: 'GitHub', href: '#' },
-    { label: 'Twitter/X', href: '#' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/turbo-sites-68532b402/' },
   ],
   status: '🟢 Available for work',
   localTimeLabel: 'Local Time (IST)',

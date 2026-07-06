@@ -1,7 +1,8 @@
 import { useCallback, useRef } from 'react'
 import { gsap } from 'gsap'
+import { projects } from '../../data/site'
 
-const TOTAL = 5
+const TOTAL = projects.length
 
 /**
  * Card positions in the carousel.
@@ -9,11 +10,11 @@ const TOTAL = 5
  * GSAP controls all transforms; these are the resting values per role.
  */
 const POSITIONS = {
-  active:      { x: '0vw',     rotateY: 0,   scale: 1,    opacity: 1,    filter: 'blur(0px)'  },
-  ghostRight:  { x: '70vw',    rotateY: 15,  scale: 0.78, opacity: 0.30, filter: 'blur(1px)'  },
-  ghostLeft:   { x: '-70vw',   rotateY: -15, scale: 0.78, opacity: 0.30, filter: 'blur(1px)'  },
-  hiddenRight: { x: '145vw',   rotateY: 20,  scale: 0.68, opacity: 0,    filter: 'blur(4px)'  },
-  hiddenLeft:  { x: '-145vw',  rotateY: -20, scale: 0.68, opacity: 0,    filter: 'blur(4px)'  },
+  active:      { x: '0vw',     rotateY: 0,   scale: 1,    opacity: 1,    zIndex: 10, pointerEvents: 'auto' },
+  ghostRight:  { x: '70vw',    rotateY: 15,  scale: 0.78, opacity: 0.30, zIndex: 5,  pointerEvents: 'auto' },
+  ghostLeft:   { x: '-70vw',   rotateY: -15, scale: 0.78, opacity: 0.30, zIndex: 5,  pointerEvents: 'auto' },
+  hiddenRight: { x: '145vw',   rotateY: 20,  scale: 0.68, opacity: 0,    zIndex: 1,  pointerEvents: 'none' },
+  hiddenLeft:  { x: '-145vw',  rotateY: -20, scale: 0.68, opacity: 0,    zIndex: 1,  pointerEvents: 'none' },
 }
 
 function getPosition(cardIndex: number, activeIndex: number) {
@@ -94,17 +95,15 @@ export function useWorkTransition({
         tl.to(oldActive, {
           opacity: 0,
           scale: 0.92,
-          filter: 'blur(8px)',
           duration: 0.28,
           ease: 'power2.in'
         }, 0)
       }
       if (newActive) {
-        gsap.set(newActive, { ...POSITIONS.active, opacity: 0, scale: 1.04, filter: 'blur(8px)' })
+        gsap.set(newActive, { ...POSITIONS.active, opacity: 0, scale: 1.04 })
         tl.to(newActive, {
           opacity: 1,
           scale: 1,
-          filter: 'blur(0px)',
           duration: 0.38,
           ease: 'power2.out'
         }, 0.22)
@@ -140,11 +139,10 @@ export function useWorkTransition({
       if (i === nextIndex) {
         tl.fromTo(
           ref.current,
-          { scale: 1.04, filter: 'blur(6px)' },
+          { scale: 1.04 },
           {
             ...targetValues,
             scale: 1,
-            filter: 'blur(0px)',
             duration,
             ease,
             overwrite: 'auto'

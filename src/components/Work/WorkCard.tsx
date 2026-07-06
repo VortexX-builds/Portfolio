@@ -18,6 +18,8 @@ const PLACEHOLDER_GRADIENTS: Record<string, string> = {
   '03': 'linear-gradient(145deg, #0f2020 0%, #1a3535 50%, #0D2B2C 100%)',
   '04': 'linear-gradient(145deg, #050a0a 0%, #0D2B2C 55%, #080d0d 100%)',
   '05': 'linear-gradient(145deg, #0D2B2C 0%, #0a1a1a 60%, #040808 100%)',
+  '06': 'linear-gradient(145deg, #0a1515 0%, #102525 50%, #061112 100%)',
+  '07': 'linear-gradient(145deg, #061010 0%, #0b1a1a 50%, #040a0a 100%)',
 }
 
 export const WorkCard = React.memo(function WorkCard({
@@ -65,7 +67,7 @@ export const WorkCard = React.memo(function WorkCard({
         )}
 
         {/* Glassmorphic floating panel overlay */}
-        <div className="work__card-overlay" aria-hidden={!isActive}>
+        <div className="work__card-overlay" aria-hidden={!isActive} style={{ pointerEvents: isActive ? 'auto' : 'none' }}>
           <div className="work__card-index">{project.index}</div>
 
           <h2 className="work__card-title">{project.title}</h2>

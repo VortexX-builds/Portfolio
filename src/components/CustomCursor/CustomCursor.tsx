@@ -90,12 +90,10 @@ export function CustomCursor() {
       if (interactiveEl) {
         setIsHovered(true)
 
-        // Show "VIEW" text on projects or links pointing to externals
-        const isProject = interactiveEl.closest('#work') || 
-                          interactiveEl.classList.contains('work-card') || 
-                          interactiveEl.classList.contains('work__image-container')
+        // Show "VIEW" text on ghost cards
+        const isGhostCard = interactiveEl.closest('.work__card--ghost')
         
-        if (isProject) {
+        if (isGhostCard) {
           setHoverText('VIEW')
         } else {
           setHoverText('')

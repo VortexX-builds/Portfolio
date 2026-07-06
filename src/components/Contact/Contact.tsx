@@ -114,7 +114,6 @@ export function Contact() {
           {/* Email — opens mailto on click */}
           <div className="contact__item" role="listitem">
             <span className="contact__item-label">{contactContent.emailLabel}</span>
-            {/* TODO: Replace with real email before deployment */}
             <a
               ref={emailRef}
               href={`mailto:${contactContent.email}`}
@@ -128,7 +127,6 @@ export function Contact() {
           {/* Phone — copies to clipboard, inline confirmation */}
           <div className="contact__item" role="listitem">
             <span className="contact__item-label">{contactContent.phoneLabel}</span>
-            {/* TODO: Replace with real phone number before deployment */}
             <button
               ref={phoneRef}
               className="contact__item-value contact__item-value--copy"

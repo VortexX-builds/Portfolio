@@ -71,7 +71,7 @@ html {
 }
 
 body {
-  background-color: transparent;
+  background-color: var(--color-bg);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   font-size: var(--text-body);
@@ -238,22 +238,28 @@ button {
   inset: 0;
   z-index: -1;
   pointer-events: none;
+}
+
+.global-bg-lines-inner {
+  position: absolute;
+  /* Make the pattern larger than viewport to allow translation without clipping */
+  inset: -200px;
   /* Two edge-biased diagonal line sweeps — combined via multiple backgrounds */
-  /* Left-edge beam: fades from left, moves downward */
   background-image:
     repeating-linear-gradient(45deg,
       transparent,
       transparent 48px,
-      rgba(168, 213, 181, 0.045) 48px,
-      rgba(168, 213, 181, 0.045) 49px),
+      rgba(255, 255, 255, 0.15) 48px,
+      rgba(255, 255, 255, 0.15) 49px),
     repeating-linear-gradient(45deg,
       transparent,
       transparent 96px,
-      rgba(168, 213, 181, 0.025) 96px,
-      rgba(168, 213, 181, 0.025) 97px);
+      rgba(255, 255, 255, 0.1) 96px,
+      rgba(255, 255, 255, 0.1) 97px);
   background-size: 200px 200px;
   animation: linesSweep 8s linear infinite;
-  /* Reduced motion: lines remain visible but static */
+  /* Hardware acceleration for the translation */
+  will-change: transform;
 }
 
 /* Mask the center — lines visible only at left/right edges, transparent in the middle */
@@ -270,11 +276,10 @@ button {
 
 @keyframes linesSweep {
   from {
-    background-position: 0 0, 0 0;
+    transform: translate(0, 0);
   }
-
   to {
-    background-position: 200px 200px, 200px 200px;
+    transform: translate(200px, 200px);
   }
 }
 
@@ -284,19 +289,6 @@ button {
   }
 }
 
-.global-bg-grain {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  /* Inline SVG feTurbulence grain — no external file, ~0kb, seamlessly tileable */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
-  opacity: 0.09;
-  pointer-events: none;
-}
 
 /* ─── Hide Standard Cursor on Desktop ───────────────────────────────────────── */
 @media (pointer: fine) {
@@ -314,7 +306,6 @@ button {
 
 /* %%% Contact/Footer Layout Wrapper %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 .contact-footer-wrapper {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
