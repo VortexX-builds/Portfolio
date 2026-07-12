@@ -116,7 +116,7 @@ export const aboutContent = {
 } as const
 
 export const heroCopy = {
-  roleFragments: ['Frontend Developer.', 'Motion.', 'Interaction.'],
+  roleFragments: ['Full Stack Developer.', 'Web & Mobile.', 'End-to-End.'],
   quote: 'The difference is in the details.',
   scrollLabel: 'scroll',
 } as const
