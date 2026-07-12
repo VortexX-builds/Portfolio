@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-# Sitemap: https://YOUR_DOMAIN.com/sitemap.xml
+# Sitemap: https://sloak-gohil.vercel.app/sitemap.xml

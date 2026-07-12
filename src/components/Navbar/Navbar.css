@@ -249,7 +249,7 @@
 .mobile-menu {
   position: fixed;
   inset: 0;
-  z-index: 90; /* Below navbar (100) so MENU/CLOSE button stays on top */
+  z-index: 110; /* Above navbar (100) to prevent MENU text bleed-through */
 
   background-color: var(--color-bg); /* Solid — no blur, overlay IS the surface */
 
