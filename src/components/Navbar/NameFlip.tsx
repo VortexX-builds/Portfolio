@@ -69,7 +69,7 @@ export const NameFlip = forwardRef<NameFlipHandle>(function NameFlip(_, ref) {
     <a
       href="#"
       className="navbar__name"
-      aria-label={`${siteIdentity.realName} — also known as ${siteIdentity.craftName}`}
+      aria-label={`${siteIdentity.realName} | also known as ${siteIdentity.craftName}`}
     >
       <span
         ref={frontRef}

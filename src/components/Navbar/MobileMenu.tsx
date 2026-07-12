@@ -141,7 +141,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
       {/* Footer: identity line */}
       <p ref={footerRef} className="mobile-menu__footer">
-        {siteIdentity.realName} &mdash; {siteIdentity.role}
+        {siteIdentity.realName} | {siteIdentity.role}
       </p>
     </div>
   )

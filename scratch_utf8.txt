@@ -1,0 +1,107 @@
+﻿PROJECT_CONTEXT.md:| 01 | Phase One VFX | VFX Studio ΓÇö Frontend |
+PROJECT_CONTEXT.md:| 02 | SwiftCart Delivery | Delivery App ΓÇö Frontend |
+PROJECT_CONTEXT.md:| 03 | Novara Hospital | Healthcare ΓÇö Frontend |
+PROJECT_CONTEXT.md:| 04 | Glac├⌐ & Levain | Artisan Bakery ΓÇö Frontend |
+PROJECT_CONTEXT.md:| 05 | Stoic VFX | VFX Studio ΓÇö Frontend |
+PROJECT_CONTEXT.md:| 06 | The Monolith Gym | Fitness ΓÇö Frontend |
+PROJECT_CONTEXT.md:| 07 | Vibrew Coffee Shop | F&B ΓÇö Frontend |
+PROJECT_CONTEXT.md:**V1 Status:** FEATURE COMPLETE ΓÇö all sections built  
+lighthouse-report-after.json:            "line": "    <title>Sloak Gohil ΓÇö Frontend Developer</title>",
+lighthouse-report-desktop-2.json:              "snippet": "<a href=\"#\" class=\"navbar__name\" aria-label=\"Sloak Gohil ΓÇö also known as VortexX\">",
+lighthouse-report-desktop-2.json:            "line": "    <title>Sloak Gohil ΓÇö Frontend Developer</title>",
+lighthouse-report-desktop.json:              "snippet": "<a href=\"#\" class=\"navbar__name\" aria-label=\"Sloak Gohil ΓÇö also known as VortexX\">",
+lighthouse-report-desktop.json:            "line": "    <title>Sloak Gohil ΓÇö Frontend Developer</title>",
+lighthouse-report-prod.json:            "line": "    <title>Sloak Gohil ΓÇö Frontend Developer</title>",
+lighthouse-report.json:            "line": "    <title>Sloak Gohil ΓÇö Frontend Developer</title>",
+skills/animation-gsap.md:# GSAP Animation ΓÇö Rules and Standards
+skills/animation-gsap.md:**Never use:** `elastic`, `bounce`, `back` ΓÇö they break the tone.
+skills/animation-gsap.md:- Elements don't snap ΓÇö they decelerate.
+skills/animation-gsap.md:- Stagger should be subtle: `0.08s` to `0.15s` ΓÇö never more.
+skills/animation-gsap.md:## Cleanup ΓÇö Non-Negotiable
+skills/animation-gsap.md:- [ ] Scroll-driven animations use `scrub` ΓÇö not `requestAnimationFrame` loops
+skills/animation-gsap.md:- [ ] Stagger count is under 20 elements ΓÇö beyond that, batch or simplify
+skills/animation-gsap.md:  // Instant state ΓÇö no animation
+skills/copywriting.md:# Copywriting ΓÇö Rules and Tone
+skills/copywriting.md:## The Benchmark ΓÇö About Copy
+skills/copywriting.md:> React, Three.js, GSAP, TypeScript ΓÇö the technical side is handled. What actually matters is that every project I touch feels premium, intentional, and nothing like the generic slop flooding the internet.
+skills/copywriting.md:Not `ΓÇö`. Not `--`. Not `&mdash;`. Nothing.
+skills/copywriting.md:**Wrong:** "React, Three.js ΓÇö the technical side is handled."  
+skills/copywriting.md:**Stance:** The work speaks ΓÇö the copy does not oversell it.
+skills/frontend-design.md:# Frontend Design ΓÇö Premium UI Rules
+skills/frontend-design.md:**Font:** Inter ΓÇö loaded from Google Fonts, weights 400/500/600/700/900
+skills/frontend-design.md:- `--text-hero`: Hero name / identity ΓÇö clamp(3.5rem, 9vw, 9rem)
+skills/frontend-design.md:- `--text-display`: Section titles ΓÇö clamp(2.5rem, 6vw, 6rem)
+skills/frontend-design.md:- Support text is muted and small ΓÇö it does not compete.
+skills/frontend-design.md:- Whitespace is intentional ΓÇö do not compress it to "fit more"
+skills/frontend-design.md:2. **Strong vertical rhythm.** Sections feel like chapters ΓÇö distinct, intentional.
+skills/frontend-design.md:6. **Hover states are deliberate.** A hover effect should reveal intent ΓÇö not just add motion.
+skills/performance.md:# Performance ΓÇö Component Checklist
+skills/performance.md:- [ ] `prefers-reduced-motion` handled ΓÇö animations disabled or instant-set
+skills/performance.md:- [ ] Polygon count tested ΓÇö nothing over 50k polys for background scenes
+skills/performance.md:- [ ] Frame rate tested on mid-tier GPU ΓÇö if it drops below 55fps, the scene is cut
+skills/performance.md:- [ ] Only Inter weights 400, 500, 700, 900 loaded ΓÇö no others
+skills/performance.md:| TTFB | Server response time | Vercel edge ΓÇö handled |
+src/components/About/About.css:/* ΓöÇΓöÇΓöÇ Responsive ΓÇö Tablet ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+src/components/About/About.css:/* ΓöÇΓöÇΓöÇ Responsive ΓÇö Mobile ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+src/components/Contact/Contact.css:  /* Sage color token ΓÇö scoped, same value as about section */
+src/components/Contact/Contact.css:/* ΓöÇΓöÇΓöÇ Content column ΓÇö 62vw centered, matching about section ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+src/components/Contact/Contact.css:/* ΓöÇΓöÇΓöÇ Section label ΓÇö pixel-perfect match to WORKS and ABOUT labels ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+src/components/Contact/Contact.css:/* ΓöÇΓöÇΓöÇ CTA line ΓÇö Boska, significant but not aggressive ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+src/components/Contact/Contact.css:/* ΓöÇΓöÇΓöÇ Individual contact item ΓÇö label + value stacked ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+src/components/Contact/Contact.css:/* ΓöÇΓöÇΓöÇ Shared value styles ΓÇö email and phone ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+src/components/Contact/Contact.css:   * Starts scaled from the RIGHT edge ΓÇö so on hover (scale from left) it draws
+src/components/Contact/Contact.css:/* ΓöÇΓöÇΓöÇ Phone copy button ΓÇö reset button to match link style ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+src/components/Contact/Contact.css:/* ΓöÇΓöÇΓöÇ Responsive ΓÇö Tablet ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+src/components/Contact/Contact.css:/* ΓöÇΓöÇΓöÇ Responsive ΓÇö Mobile ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+src/components/Contact/Contact.tsx:      // t=0.00 ΓÇö "CONTACT" label fades in (0.4s)
+src/components/Contact/Contact.tsx:      // t=0.90 ΓÇö CTA fades and drifts up (0.7s)
+src/components/Contact/Contact.tsx:      // t=1.60 ΓÇö Email fades and drifts up (0.5s)
+src/components/Contact/Contact.tsx:      // t=1.75 ΓÇö Phone fades and drifts up (0.5s)
+src/components/Contact/Contact.tsx:      {/* Section label ΓÇö matches WORKS and ABOUT treatment exactly */}
+src/components/Contact/Contact.tsx:        {/* CTA line ΓÇö exact copy, do not change */}
+src/components/Contact/Contact.tsx:        {/* Contact details ΓÇö email and phone */}
+src/components/Contact/Contact.tsx:          {/* Email ΓÇö opens mailto on click */}
+src/components/Contact/Contact.tsx:          {/* Phone ΓÇö copies to clipboard, inline confirmation */}
+src/components/Hero/Hero.tsx:      // All key elements visible ΓÇö unlock scroll NOW before the cosmetic bounce plays.
+src/components/Navbar/MobileMenu.tsx:      {/* Close button ΓÇö top right */}
+src/components/Navbar/MobileMenu.tsx:      {/* Nav links ΓÇö large, Syne, centered */}
+src/components/Navbar/NameFlip.tsx: * NameFlipHandle ΓÇö exposed to parent via useImperativeHandle.
+src/components/Navbar/NameFlip.tsx: * "VortexX". The serif-to-sans contrast IS the storytelling ΓÇö it makes the flip
+src/components/Navbar/Navbar.css: * Navbar ΓÇö scoped styles.
+src/components/Navbar/Navbar.css:  /* Start transparent ΓÇö glass class is added by ScrollTrigger after hero */
+src/components/Navbar/Navbar.css:   * Cinzel (serif) for "Sloak Gohil" ΓÇö the human identity.
+src/components/Navbar/Navbar.css:  /* Gold accent for the craft identity ΓÇö one of our 3-4 permitted uses sitewide */
+src/components/Navbar/Navbar.css:  /* Starts flipped behind ΓÇö GSAP rotates it forward on hover */
+src/components/Navbar/Navbar.css:  letter-spacing: 0.15em; /* Widest ΓÇö initials read like a monogram */
+src/components/Navbar/Navbar.css:  background-color: var(--color-bg); /* Solid ΓÇö no blur, overlay IS the surface */
+src/components/Navbar/Navbar.css:   * Thin vertical accent line on the left edge ΓÇö a premium detail
+src/components/Navbar/Navbar.css:   * Hover: accent color ΓÇö one permitted use (we have 3-4 sitewide budget).
+src/components/Navbar/Navbar.css:   * "no cheap micro-animations" rule ΓÇö this is intentional, weighted.
+src/components/Navbar/Navbar.css:  /* No em dashes ΓÇö the &mdash; in JSX is original copy, not us writing it */
+src/components/Navbar/Navbar.tsx: *  - Glass (scrolled past hero ΓÇö backdrop-filter + subtle surface)
+src/components/Navbar/Navbar.tsx: *  - Hidden (scrolling down ΓÇö translates off-screen)
+src/components/Navbar/Navbar.tsx:        // Only react after 80px ΓÇö ignore tiny hero-top jitter
+src/components/Navbar/Navbar.tsx:      {/* Mobile overlay ΓÇö always in DOM, clip-path controls visibility */}
+src/components/Preloader/Preloader.css: * Preloader ΓÇö scoped styles.
+src/components/Preloader/Preloader.tsx:  /** Called when the exit animation is complete ΓÇö removes preloader from tree, fires hero entrance */
+src/components/Work/Work.css:/* ΓöÇΓöÇΓöÇ Phase 3: Carousel wrapper ΓÇö holds arrows + carousel on the same row ΓöÇΓöÇΓöÇΓöÇΓöÇ */
+src/components/Work/Work.tsx:  // Use a ref ΓÇö NOT state ΓÇö so the guard flip never triggers a re-render
+src/components/Work/Work.tsx:  // One stable ref per project card ΓÇö never recreated
+src/components/Work/Work.tsx:  // the sole authority on when they appear ΓÇö no double-pop flash.
+src/components/Work/Work.tsx:    // Skip the very first render ΓÇö no fade needed on mount
+src/components/Work/Work.tsx:      {/* Phase 5: Ambient orbs ΓÇö CSS animated, nearly invisible depth */}
+src/components/Work/Work.tsx:      {/* Carousel wrapper ΓÇö arrows sit inside this for vertical centering */}
+src/components/Work/Work.tsx:        {/* Phase 3: Left arrow ΓÇö infinite prev */}
+src/components/Work/Work.tsx:        {/* Phase 3: Right arrow ΓÇö infinite next */}
+src/components/Work/Work.tsx:      {/* Pagination dots only ΓÇö arrows moved to carousel sides */}
+src/components/Work/useWorkTransition.ts:  // Phase 3: Infinite wrap ΓÇö modular arithmetic, no clamping
+src/data/site.ts: * Components import from here ΓÇö no hardcoded content in JSX.
+src/hooks/useLenis.ts:// Register GSAP plugins globally ΓÇö done once here, available everywhere
+src/hooks/useLenis.ts:/** Module-level singleton ΓÇö accessible without prop-drilling */
+src/hooks/useLenis.ts:    // Start scroll locked ΓÇö the preloader will call lenis.start() on its
+src/index.css:/* Mask the center ΓÇö lines visible mostly at left/right edges */
+src/tokens.ts: * Design Tokens ΓÇö Single source of truth for the entire site.
+src/tokens.ts:  // Derived / utility ΓÇö not standalone palette entries
+src/tokens.ts: * Type scale ΓÇö uses clamp() for fluid sizing.
+src/tokens.ts: * "power3.inOut" for reveals ΓÇö heavier feel.
+src/tokens.ts: * Never use "elastic" or "bounce" ΓÇö they break the tone.

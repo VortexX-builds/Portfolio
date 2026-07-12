@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-# Sitemap: https://yourdomain.com/sitemap.xml
+# Sitemap: https://YOUR_DOMAIN.com/sitemap.xml

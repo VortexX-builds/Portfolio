@@ -25,7 +25,6 @@
 | Tailwind CSS v4 | Utility classes via `@tailwindcss/vite` plugin |
 | GSAP + ScrollTrigger | All animations |
 | Lenis | Smooth scroll (synced with GSAP) |
-| Lenis | Smooth scroll (synced with GSAP) |
 
 ---
 
@@ -109,7 +108,7 @@ Wherever "Sloak Gohil" appears (navbar, hero, about), hovering triggers a smooth
 | 2 | Navbar | COMPLETE | Glass surface post-hero, scroll hide/show, name flip, mobile radial overlay |
 | 3 | Hero | COMPLETE | Name + role, subtle background motion, hover interaction |
 | 4 | Quote Bridge | COMPLETE | Scroll-scrubbed transition (+250vh pin), word-by-word assembly |
-| 5 | Work | PENDING | 5 projects, full-width sequential scroll, no grid |
+| 5 | Work | COMPLETE | 7 projects, 3D carousel scroll, no grid |
 | 6 | About | COMPLETE | Single-column Boska serif, strikethrough correction mechanic, scroll-triggered once, sage rule |
 | 7 | Contact | COMPLETE | Email + phone, clipboard copy, Boska CTA, footer |
 
@@ -121,40 +120,37 @@ Wherever "Sloak Gohil" appears (navbar, hero, about), hovering triggers a smooth
 
 Present in this exact order:
 
-| # | Title | Description | Live Link | Screenshot |
-|---|---|---|---|---|
-| 01 | Phase One VFX | VFX studio site | TBD | TBD |
-| 02 | Novara Hospital | Hospital/clinic frontend | TBD | TBD |
-| 03 | Stoic VFX | VFX studio | TBD | TBD |
-| 04 | The Monolith | TBD | TBD | TBD |
-| 05 | Coffee Shop One | TBD | TBD | TBD |
+| # | Title | Description |
+|---|---|---|
+| 01 | Phase One VFX | VFX Studio — Frontend |
+| 02 | SwiftCart Delivery | Delivery App — Frontend |
+| 03 | Novara Hospital | Healthcare — Frontend |
+| 04 | Glacé & Levain | Artisan Bakery — Frontend |
+| 05 | Stoic VFX | VFX Studio — Frontend |
+| 06 | The Monolith Gym | Fitness — Frontend |
+| 07 | Vibrew Coffee Shop | F&B — Frontend |
 
-Work section: full-width or near full-width sequential scroll. Project name, brief description, live link. Visual enters with weight on scroll. No card grids.
+Work section: 3D carousel scroll layout. Project name, brief description, live link. Visual enters with weight on scroll. No card grids.
 
 ---
 
 ## About Section (Exact Copy, Do Not Alter)
 
-**Paragraph 1 (greeting, no strikethrough):**
+**Paragraph 1 (greeting):**
 > I'm Sloak Gohil.
 
-**Paragraph 2 (strikethrough correction):**
-> I build ~~pretty websites~~ websites that don't look like websites.
+**Paragraph 2:**
+> I build websites that are in your brain and turn them into *reality.*
 
-**Paragraph 3 (no strikethrough):**
+**Paragraph 3:**
 > React, Three.js, GSAP, TypeScript. The technical side is handled. What actually matters is that every project I touch feels premium, intentional, and nothing like the generic slop flooding the internet.
 
-**Paragraph 4 (strikethrough correction):**
-> If you can feel the difference, ~~let's work together~~ you already know what I do.
+**Paragraph 4:**
+> If you can feel the difference, you already know where to find me.
 
-### Strikethrough Correction Mechanic
+### Word-by-Word Reveal Mechanic
 
-Two paragraphs use an inline correction interaction triggered once on scroll entry:
-1. Struck words appear at full opacity as part of the sentence.
-2. A thin `#A8D5B5` line draws across them left-to-right (scaleX 0 to 1, 0.3s).
-3. Struck words drop to 40% opacity.
-4. Replacement words fade in immediately after (0.25s).
-5. Final state held permanently. Plays once. No reset on scroll.
+The about section uses a simple, elegant word-by-word opacity reveal on scroll. There is no pin or strikethrough logic. The words simply fade in sequentially as the user scrolls down.
 
 ---
 
@@ -210,16 +206,13 @@ Portfolio/
 **Preloader:** COMPLETE  
 **Navbar:** COMPLETE  
 **Hero & Quote Bridge:** COMPLETE  
-**About:** COMPLETE (rebuilt with Boska serif, strikethrough correction mechanic)  
+**About:** COMPLETE (Boska serif, word-by-word reveal mechanic)  
 **Contact & Footer:** COMPLETE  
+**Work:** COMPLETE
 **V1 Status:** FEATURE COMPLETE — all sections built  
 
-> **Before deployment:**  
-> - Replace `email` placeholder in `src/data/site.ts` (TODO comment in file)  
-> - Replace `phone` placeholder in `src/data/site.ts` (TODO comment in file)  
-
-**Current section in progress:** None  
-**Next section to build:** Deployment prep / real content
+**Current section in progress:** Pre-Deployment Audit  
+**Next section to build:** Final launch polish
 
 ---
 
@@ -236,4 +229,4 @@ Portfolio/
 | Quote Bridge inside Hero pin | Extends the hero pin by 150vh (`+=250%`) to keep the shader running beneath the quote assembly |
 | Global Background | Removed Three.js WebGL shader. Replaced with pure CSS hardware-accelerated animated gradient mesh and static grain texture. Eliminates 500kb bundle size and all JS animation loops. |
 | Boska variable serif for About | Scoped to about section only. Self-hosted woff2 at `public/fonts/Boska-Variable.woff2`. Preloaded. Does not affect any other section. |
-| Strikethrough correction mechanic | Inline `display: inline` DOM structure. Struck text + strikethrough line + replacement text all flow in the same sentence. Natural line wrapping at all viewports. GSAP timeline plays once via `toggleActions: 'play none none none'` at `start: 'top 70%'`. |
+| About section word reveal | Clean, simple GSAP opacity transition per word tied to ScrollTrigger. No complex pin or strikethrough to maintain smooth, continuous scrolling flow. |

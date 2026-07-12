@@ -242,35 +242,48 @@ button {
 
 .global-bg-lines-inner {
   position: absolute;
-  /* Make the pattern larger than viewport to allow translation without clipping */
+  /* Oversize enough to handle the 200px translate */
   inset: -200px;
-  /* Two edge-biased diagonal line sweeps — combined via multiple backgrounds */
   background-image:
-    repeating-linear-gradient(45deg,
-      transparent,
-      transparent 48px,
-      rgba(255, 255, 255, 0.15) 48px,
-      rgba(255, 255, 255, 0.15) 49px),
-    repeating-linear-gradient(45deg,
-      transparent,
-      transparent 96px,
-      rgba(255, 255, 255, 0.1) 96px,
-      rgba(255, 255, 255, 0.1) 97px);
-  background-size: 200px 200px;
-  animation: linesSweep 8s linear infinite;
+    /* Tile 1: 100x100, 15% opacity white lines */
+    linear-gradient(45deg, 
+      rgba(255, 255, 255, 0.15) 0, 
+      rgba(255, 255, 255, 0.15) 1px, 
+      transparent 1px, 
+      transparent calc(50% - 1px), 
+      rgba(255, 255, 255, 0.15) calc(50% - 1px), 
+      rgba(255, 255, 255, 0.15) calc(50% + 1px), 
+      transparent calc(50% + 1px), 
+      transparent calc(100% - 1px),
+      rgba(255, 255, 255, 0.15) calc(100% - 1px), 
+      rgba(255, 255, 255, 0.15) 100%),
+    /* Tile 2: 200x200, 10% opacity white lines */
+    linear-gradient(45deg, 
+      rgba(255, 255, 255, 0.1) 0, 
+      rgba(255, 255, 255, 0.1) 1px, 
+      transparent 1px, 
+      transparent calc(50% - 1px), 
+      rgba(255, 255, 255, 0.1) calc(50% - 1px), 
+      rgba(255, 255, 255, 0.1) calc(50% + 1px), 
+      transparent calc(50% + 1px), 
+      transparent calc(100% - 1px),
+      rgba(255, 255, 255, 0.1) calc(100% - 1px), 
+      rgba(255, 255, 255, 0.1) 100%);
+  background-size: 100px 100px, 200px 200px;
+  animation: linesSweep 6s linear infinite;
   /* Hardware acceleration for the translation */
   will-change: transform;
 }
 
-/* Mask the center — lines visible only at left/right edges, transparent in the middle */
+/* Mask the center — lines visible mostly at left/right edges */
 .global-bg-lines::after {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse 55% 100% at 50% 50%,
-      rgba(1, 6, 6, 0.4) 0%,
-      rgba(1, 6, 6, 0.25) 30%,
-      transparent 70%);
+      rgba(1, 6, 6, 0.7) 0%,
+      rgba(1, 6, 6, 0.4) 40%,
+      transparent 80%);
   pointer-events: none;
 }
 
@@ -279,6 +292,7 @@ button {
     transform: translate(0, 0);
   }
   to {
+    /* Translating by 200px perfect loops the 100px and 200px tiles */
     transform: translate(200px, 200px);
   }
 }
