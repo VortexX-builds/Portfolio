@@ -9,19 +9,22 @@ const TOTAL = projects.length
  * Phase 2: ghost positions adjusted for larger active card.
  * GSAP controls all transforms; these are the resting values per role.
  */
-const POSITIONS = {
+const POSITIONS: Record<string, any> = {
   active:      { x: '0vw',     rotateY: 0,   scale: 1,    opacity: 1,    zIndex: 10, pointerEvents: 'auto' },
   ghostRight:  { x: '70vw',    rotateY: 15,  scale: 0.78, opacity: 0.30, zIndex: 5,  pointerEvents: 'auto' },
   ghostLeft:   { x: '-70vw',   rotateY: -15, scale: 0.78, opacity: 0.30, zIndex: 5,  pointerEvents: 'auto' },
   hiddenRight: { x: '145vw',   rotateY: 20,  scale: 0.68, opacity: 0,    zIndex: 1,  pointerEvents: 'none' },
   hiddenLeft:  { x: '-145vw',  rotateY: -20, scale: 0.68, opacity: 0,    zIndex: 1,  pointerEvents: 'none' },
+  hiddenRightMobile: { x: '120vw',  rotateY: 0, scale: 0.9, opacity: 0, zIndex: 1, pointerEvents: 'none' },
+  hiddenLeftMobile:  { x: '-120vw', rotateY: 0, scale: 0.9, opacity: 0, zIndex: 1, pointerEvents: 'none' },
 }
 
 function getPosition(cardIndex: number, activeIndex: number) {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
   const diff = ((cardIndex - activeIndex) % TOTAL + TOTAL) % TOTAL
   if (diff === 0)          return 'active'
-  if (diff === 1)          return 'ghostRight'
-  if (diff === TOTAL - 1)  return 'ghostLeft'
+  if (diff === 1)          return isMobile ? 'hiddenRightMobile' : 'ghostRight'
+  if (diff === TOTAL - 1)  return isMobile ? 'hiddenLeftMobile' : 'ghostLeft'
   if (diff === 2)          return 'hiddenRight'
   return 'hiddenLeft'
 }

@@ -6,6 +6,14 @@
   overflow: hidden;
 }
 
+@media (max-width: 640px) {
+  .hero {
+    height: auto;
+    min-height: 65vh;
+    padding: 20vh 0 10vh 0;
+  }
+}
+
 /* ─── Background ──────────────────────────────────────────────────────────── */
 /* Local green gradient removed. Global bg layers (drift + lines + grain) now show through. */
 
@@ -26,6 +34,17 @@
   align-self: center;
   /* Counteract the bottom quote row visually to maintain perfect center */
   margin-top: -4rem;
+}
+
+@media (max-width: 640px) {
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero__lockup {
+    margin-top: 0;
+  }
 }
 
 .hero__rule {
@@ -54,6 +73,15 @@
   padding-bottom: 0.5rem;
   /* Tighter gap to role */
   will-change: transform, opacity;
+}
+
+@media (max-width: 640px) {
+  .hero__name {
+    /* Force single line on narrow viewports */
+    font-size: clamp(2rem, 9vw, 3.5rem);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
 }
 
 .hero__role {

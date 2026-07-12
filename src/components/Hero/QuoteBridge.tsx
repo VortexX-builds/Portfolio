@@ -24,18 +24,25 @@ export function QuoteBridge({ bridgeRef }: QuoteBridgeProps) {
       <div className="quote-bridge__inner">
         {words.map((word, i) => {
           const isLast = i === words.length - 1;
+          
+          if (isLast) {
+            return (
+              <span key={i} style={{ whiteSpace: 'nowrap' }}>
+                <span className="quote-bridge__word quote-bridge__word--last">{word}</span>
+                {hasPeriod && <span className="quote-bridge__period">.</span>}
+              </span>
+            );
+          }
+
           return (
             <span 
               key={i} 
-              className={`quote-bridge__word ${isLast ? 'quote-bridge__word--last' : ''}`}
+              className="quote-bridge__word"
             >
               {word}
             </span>
           )
         })}
-        {hasPeriod && (
-          <span className="quote-bridge__period">.</span>
-        )}
       </div>
     </div>
   )
