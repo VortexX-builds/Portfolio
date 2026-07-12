@@ -102,11 +102,11 @@ export const aboutContent = {
     },
     {
       type: 'plain' as const,
-      text: "I build websites that are in your brain and turn them into *reality.*",
+      text: "I take the digital products in your brain and turn them into *reality.*",
     },
     {
       type: 'plain' as const,
-      text: "React, Three.js, GSAP, TypeScript. The technical side is handled. What actually matters is that every project I touch feels *premium,* *intentional,* and nothing like the generic *slop* flooding the internet.",
+      text: "React, Node.js, React Native, TypeScript. The technical architecture is handled from front to back. What actually matters is that every web and mobile app I touch feels *premium,* *intentional,* and nothing like the generic *slop* flooding the internet.",
     },
     {
       type: 'plain' as const,

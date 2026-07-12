@@ -208,7 +208,11 @@ export function Work() {
       })
     }, sectionRef)
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert()
+      // Reset ref on unmount so Vite Hot Module Replacement (HMR) doesn't permanently hide cards during dev
+      hasEnteredRef.current = false
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

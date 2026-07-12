@@ -10,7 +10,7 @@ export function CustomCursor() {
 
   const [isHovered, setIsHovered] = useState(false)
   const [hoverText, setHoverText] = useState('')
-  const [isVisible, setIsVisible] = useState(false)
+  const isVisibleRef = useRef(false)
 
   useEffect(() => {
     const container = containerRef.current
@@ -38,8 +38,8 @@ export function CustomCursor() {
       const { clientX: x, clientY: y } = e
 
       // Show cursor on first mouse movement inside window
-      if (!isVisible) {
-        setIsVisible(true)
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true
         gsap.to([dot, ring], { opacity: 1, duration: 0.2 })
       }
 
@@ -55,13 +55,13 @@ export function CustomCursor() {
 
     // Hide custom cursor when mouse leaves document window boundaries
     const handleMouseLeave = () => {
-      setIsVisible(false)
+      isVisibleRef.current = false
       gsap.to([dot, ring], { opacity: 0, duration: 0.2 })
     }
 
     // Show custom cursor when mouse re-enters window
     const handleMouseEnter = () => {
-      setIsVisible(true)
+      isVisibleRef.current = true
       gsap.to([dot, ring], { opacity: 1, duration: 0.2 })
     }
 
@@ -79,7 +79,7 @@ export function CustomCursor() {
       document.removeEventListener('mouseleave', handleMouseLeave)
       document.removeEventListener('mouseenter', handleMouseEnter)
     }
-  }, [isVisible])
+  }, [])
 
   // Setup Event Delegation for Hover States on Interactive Elements
   useEffect(() => {
