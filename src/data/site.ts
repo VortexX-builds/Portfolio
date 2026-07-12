@@ -44,7 +44,7 @@ export const projects = [
     type: 'Delivery App | Frontend',
     link: 'https://swiftcart-delivery.vercel.app',
     images: [swiftcartDeliveryImg],
-    tags: ['React', 'TypeScript', 'Supabase'],
+    tags: ['React', 'Supabase', 'PWA'],
   },
   {
     id: 'novara-hospital',
@@ -106,7 +106,7 @@ export const aboutContent = {
     },
     {
       type: 'plain' as const,
-      text: "React, Node.js, React Native, TypeScript. The technical architecture is handled from front to back. What actually matters is that every web and mobile app I touch feels *premium,* *intentional,* and nothing like the generic *slop* flooding the internet.",
+      text: "React, Supabase, GSAP, TypeScript. The technical architecture is handled from front to back. What actually matters is that every product I touch feels *premium,* *intentional,* and nothing like the generic *slop* flooding the internet.",
     },
     {
       type: 'plain' as const,
@@ -116,7 +116,7 @@ export const aboutContent = {
 } as const
 
 export const heroCopy = {
-  roleFragments: ['Full Stack Developer.', 'Web & Mobile.', 'End-to-End.'],
+  roleFragments: ['Full Stack Developer.', 'Frontend & Backend.', 'Real Products.'],
   quote: 'The difference is in the details.',
   scrollLabel: 'scroll',
 } as const
