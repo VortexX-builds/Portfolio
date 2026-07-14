@@ -65,7 +65,7 @@ export default function App() {
           isVisible={preloaderDone} 
           onReady={handleHeroReady} 
         />
-        <Work />
+        <Work isAppReady={preloaderDone} />
         <About />
         <div className="contact-footer-wrapper">
           <Contact />

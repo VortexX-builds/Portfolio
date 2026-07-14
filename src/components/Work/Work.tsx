@@ -25,7 +25,7 @@ function ChevronRight() {
   )
 }
 
-export function Work() {
+export function Work({ isAppReady = true }: { isAppReady?: boolean }) {
   const sectionRef = useRef<HTMLElement>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
   const prevArrowRef = useRef<HTMLButtonElement>(null)
@@ -114,6 +114,15 @@ export function Work() {
   useEffect(() => {
     if (!sectionRef.current) return
     const ctx = gsap.context(() => {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      // Hide section initially to prevent early render flash before scroll
+      if (!prefersReduced) {
+        gsap.set(sectionRef.current, { opacity: 0, y: 40 })
+      }
+
+      if (!isAppReady) return // Wait until preloader is completely finished
+
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top 95%',
@@ -122,10 +131,16 @@ export function Work() {
           if (hasEnteredRef.current) return
           hasEnteredRef.current = true
 
-          const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-          const tl = gsap.timeline()
+          // If triggered immediately on page load (scroll is at top), delay the timeline 
+          // so it cascades gracefully after the Hero animation finishes.
+          const tl = gsap.timeline({
+            delay: window.scrollY < 10 ? 1.2 : 0
+          })
 
           if (!prefersReduced) {
+            // Fade in and drift up the entire section wrapper
+            tl.to(sectionRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0)
+
             // Beat 1: Header fades in from top
             tl.fromTo('.work__header',
               { opacity: 0, y: -20 },
@@ -133,7 +148,7 @@ export function Work() {
               0.15
             )
 
-            // Beat 2: Active card sharpens into focus
+            // Beat 2: Active card sharpens into focus (content inside appears alongside it)
             const activeCard = cardRefs.current[0]?.current
             if (activeCard) {
               tl.to(activeCard, {
@@ -154,41 +169,19 @@ export function Work() {
               tl.to(rightCard, { opacity: 0.30, duration: 0.55, ease: 'power2.out' }, 0.20)
             }
 
-            // Beat 4: Card info cascade (within the overlay) - staggered per element
-            tl.fromTo('.work__card-index',
-              { opacity: 0, y: 8 },
-              { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
-              0.9
-            )
-            tl.fromTo('.work__card-title',
-              { opacity: 0, y: 14 },
-              { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' },
-              0.96
-            )
-            tl.fromTo('.work__card-type',
-              { opacity: 0, y: 10 },
-              { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
-              1.02
-            )
-            tl.fromTo('.work__card-footer',
-              { opacity: 0, y: 8 },
-              { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
-              1.08
-            )
-
-            // Beat 5: Pagination dots & arrows fade in
+            // Beat 4: Pagination dots & arrows fade in
             tl.fromTo('.work__pagination',
               { opacity: 0, y: 12 },
               { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
-              1.0
+              0.5
             )
             tl.fromTo([prevArrowRef.current, nextArrowRef.current],
               { opacity: 0, x: (i: number) => i === 0 ? -20 : 20 },
               { opacity: 1, x: 0, duration: 0.5, ease: 'power2.out', stagger: 0.08 },
-              0.85
+              0.35
             )
 
-            // Beat 6: Ambient orbs fade in last
+            // Beat 5: Ambient orbs fade in last
             tl.fromTo('.work__ambient-orb',
               { opacity: 0 },
               { opacity: 1, duration: 1.2, ease: 'power2.out', stagger: 0.2 },
@@ -217,7 +210,7 @@ export function Work() {
       hasEnteredRef.current = false
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [isAppReady])
 
   // ─── Phase 4: Active card mouse-tracking tilt ─────────────────────────────
   useEffect(() => {

@@ -123,6 +123,8 @@ export function Preloader({ onComplete }: PreloaderProps) {
             </React.Fragment>
           ))}
           
+          <br className="preloader__break" />
+
           <span className="preloader__word">
             <span 
               className="preloader__word-inner preloader__word--flip"
