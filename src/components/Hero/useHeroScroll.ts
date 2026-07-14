@@ -22,12 +22,13 @@ export function useHeroScroll(
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const ctx = gsap.context(() => {
+      const isMobile = window.innerWidth <= 768
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: hero,
           start: 'top top',
-          end: '+=180%', // hero exit + quote bridge, no dead scroll gap
-          pin: true,
+          end: isMobile ? 'bottom top' : '+=180%', // No dead scroll gap
+          pin: !isMobile, // Don't pin on mobile to prevent huge pin spacer dead space
           scrub: 1
         }
       })

@@ -152,8 +152,9 @@
 
 @media (max-width: 768px) {
   .contact {
-    padding-top: max(10vh, 4rem);
-    padding-bottom: max(5vh, 2rem);
+    min-height: auto;
+    padding-top: 5rem;
+    padding-bottom: 4rem;
   }
 
   .contact__column {

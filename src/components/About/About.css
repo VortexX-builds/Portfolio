@@ -81,7 +81,9 @@
 @media (max-width: 768px) {
   .about {
     min-height: auto;
-    padding-block: max(12vh, 5rem);
+    padding-top: 5rem;
+    padding-bottom: 1rem;
+    margin-bottom: 3rem;
   }
 
   .about__copy {

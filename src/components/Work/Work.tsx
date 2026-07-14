@@ -67,15 +67,18 @@ export function Work() {
     const rightCard   = cardRefs.current[1]?.current
     const leftCard    = cardRefs.current[TOTAL - 1]?.current
 
-    // Snap all cards to their resting transforms first (positions, rotations)
+    // snapAllToPosition uses getPosition() which is mobile-aware (returns
+    // hiddenRightMobile/hiddenLeftMobile on small screens). We rely on it
+    // exclusively for x-positioning so the initial state matches every
+    // subsequent transition state — no first-card-only peek inconsistency.
     snapAllToPosition(0)
 
-    // Now override to the START state the entry animation expects:
-    // active card: visible, but slightly enlarged and blurred (camera focus effect)
+    // Only override opacity + scale for the entry animation start state.
+    // x is intentionally NOT overridden here — snapAllToPosition already
+    // placed each card at the correct x for this viewport.
     if (activeCard) gsap.set(activeCard, { opacity: 0, y: 0, scale: 1.06 })
-    // ghost cards: invisible, at their resting positions
-    if (leftCard)   gsap.set(leftCard,   { opacity: 0, x: '-70vw' })
-    if (rightCard)  gsap.set(rightCard,  { opacity: 0, x: '70vw'  })
+    if (leftCard)   gsap.set(leftCard,   { opacity: 0 })
+    if (rightCard)  gsap.set(rightCard,  { opacity: 0 })
     // hidden cards are already opacity:0 from snapAllToPosition
   }, [snapAllToPosition])
 

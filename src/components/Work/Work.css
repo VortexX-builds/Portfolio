@@ -529,15 +529,30 @@
 }
 
 @media (max-width: 768px) {
+  .work {
+    min-height: auto;
+    padding-top: 5rem;
+    padding-bottom: 1rem;
+    margin-bottom: 3rem;
+  }
+
   .work__carousel {
-    height: 100vw;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
   }
 
   .work__card {
+    grid-area: 1 / 1;
+    position: relative;
     width: 90vw;
-    margin-left: -45vw;
-    height: 85vw;
-    margin-top: -42.5vw;
+    margin-left: 0;
+    margin-top: 0;
+    left: auto;
+    top: auto;
+    height: auto;
+    margin: 0 auto;
     aspect-ratio: auto;
   }
 
