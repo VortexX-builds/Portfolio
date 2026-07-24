@@ -51,11 +51,17 @@ export const WorkCard = React.memo(function WorkCard({
             width={1200}
             height={800}
             draggable={false}
+            onClick={isActive && project.link ? () => window.open(project.link!, '_blank', 'noopener,noreferrer') : undefined}
+            style={{ cursor: isActive && project.link ? 'pointer' : undefined }}
           />
         ) : (
           <div
             className="work__card-placeholder"
-            style={{ background: gradient }}
+            style={{ 
+              background: gradient,
+              cursor: isActive && project.link ? 'pointer' : undefined 
+            }}
+            onClick={isActive && project.link ? () => window.open(project.link!, '_blank', 'noopener,noreferrer') : undefined}
           >
             <span
               className="work__card-placeholder-number"
